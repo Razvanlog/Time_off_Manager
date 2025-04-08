@@ -1,12 +1,12 @@
 # Time_off_Manager 
 ## How to run backend:
-While in the backend directory type: 
+While in the backend directory type: <br/>
 	mvn spring-boot: run 
 ## How to run frontend: 
-While in the frontend directory type: 
+While in the frontend directory type: <br/>
 	ng serve 
 ## Accessing the web app through browser
-After both parts are running, go to in your choosen browser at the address:
-	localhost:4200
+After both parts are running, go to in your choosen browser at the address: <br/>
+	http://localhost:4200
 To access swagger part, enter:
-	localhost:8080/swagger-ui/index.html
+	https://localhost:8080/swagger-ui/index.html
