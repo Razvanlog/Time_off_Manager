@@ -9,6 +9,8 @@ While in the frontend directory type: <br/>
 		ng serve 
 ## Accessing the web app through browser
 After both parts are running, go to in your choosen browser at the address: <br/>
-	http://localhost:4200
+##
+		http://localhost:4200
 To access swagger part, enter:
-	https://localhost:8080/swagger-ui/index.html
+##	
+		https://localhost:8080/swagger-ui/index.html
