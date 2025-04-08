@@ -2,14 +2,11 @@
 ## How to run backend:
 While in the backend directory type: <br/>
 ##
-<tab><tab> mvn spring-boot: run 
-
+		mvn spring-boot: run 
 ## How to run frontend: 
-
 While in the frontend directory type: <br/>
-
 ##
-<tab><tab> ng serve 
+		ng serve 
 ## Accessing the web app through browser
 After both parts are running, go to in your choosen browser at the address: <br/>
 	http://localhost:4200
