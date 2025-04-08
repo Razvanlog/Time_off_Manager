@@ -13,4 +13,4 @@ After both parts are running, go to in your choosen browser at the address: <br/
 		http://localhost:4200
 To access swagger part, enter:
 ##	
-		https://localhost:8080/swagger-ui/index.html
+		http://localhost:8080/swagger-ui/index.html
