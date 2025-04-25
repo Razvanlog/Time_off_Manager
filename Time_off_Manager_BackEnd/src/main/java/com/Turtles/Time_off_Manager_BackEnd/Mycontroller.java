@@ -13,7 +13,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 public class Mycontroller {
     @GetMapping("/hello")
     @Operation(summary="Hello from spring boot")
-    @ApiResponse(responseCode="240", description = "response sent succesfuly")
+    @ApiResponse(responseCode="200", description = "response sent succesfuly")
     public String sayHello(){
          return "Greetings from Spring Boot!";
     }
