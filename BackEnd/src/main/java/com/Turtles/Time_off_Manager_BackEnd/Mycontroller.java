@@ -24,5 +24,4 @@ public class Mycontroller {
         model.put("content","Hello World");
         return model;
     }*/
-
 }
