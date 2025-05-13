@@ -13,8 +13,12 @@ public class TimeOffRequestsService {
     @Autowired
     private UserRepository userRepo;
     public TimeOffRequest save(TimeOffRequest timeOffRequest) {
-        User a=userRepo.findById(timeOffRequest.getUser().getUserId()).get();
-        timeOffRequest.setUser(a);
+//        User a=userRepo.findById(timeOffRequest.getUser().getUserId()).get();
+//        timeOffRequest.setUser(a);
+        User a=userRepo.findById(timeOffRequest.getUser()).get();
+        if (a==null){
+            return null;
+        }
         return repo.save(timeOffRequest);
     }
     public List<TimeOffRequest> findAll() {

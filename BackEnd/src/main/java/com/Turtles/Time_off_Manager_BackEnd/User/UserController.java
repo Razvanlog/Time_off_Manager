@@ -24,9 +24,21 @@ public class UserController {
         return ResponseEntity.ok(a);
     }
     @GetMapping
+    @Operation(summary="Get all users")
+    @ApiResponse(responseCode="200", description="succes")
     public ResponseEntity<List<User>> getAllUsers(){
         List<User> users=service.findAll();
         return ResponseEntity.ok(users);
+    }
+    @GetMapping("/{id}")
+    @Operation(summary="get a User with id")
+    @ApiResponse(responseCode="200", description="succes")
+    public ResponseEntity<User> getUserById(@PathVariable int id){
+        User user=service.findById(id);
+        if (user==null){
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(user);
     }
     @DeleteMapping
     @Operation(summary="Delete User by Id")
@@ -35,5 +47,18 @@ public class UserController {
         User user=service.findById(id);
         service.delete(id);
         return ResponseEntity.ok(user);
+    }
+    @PutMapping("/{id}")
+    @Operation(summary="Modify User")
+    @ApiResponse(responseCode="200", description="succes")
+    public ResponseEntity<User> updateUser(@PathVariable int id, @RequestBody User user) {
+        if (service.exists(id)){
+            User u=service.findById(id);
+            u.setName(user.getName());
+            u.setEmail(user.getEmail());
+            u.setPassword(user.getPassword());
+            return ResponseEntity.ok(service.save(u));
+        }
+        else return ResponseEntity.notFound().build();
     }
 }

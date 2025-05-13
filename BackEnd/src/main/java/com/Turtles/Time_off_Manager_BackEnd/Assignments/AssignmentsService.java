@@ -26,8 +26,18 @@ public class AssignmentsService {
         }
         else return null;
     }
+    public Assignments findById(int id){
+        if (repo.existsById(id)){
+            return repo.findById(id).get();
+        }
+        return null;
+    }
     public List<Assignments> findByUser(int id){
         List<Assignments> a=repo.findByUser(id);
+        return a;
+    }
+    public List<Assignments> findAll(){
+        List<Assignments> a=repo.findAll();
         return a;
     }
     public List<Assignments> findByProject(int project){

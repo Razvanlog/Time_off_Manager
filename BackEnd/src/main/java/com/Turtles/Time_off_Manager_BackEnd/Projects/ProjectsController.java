@@ -28,12 +28,25 @@ public class ProjectsController {
     public ResponseEntity<List<Projects>> getAllProjects(){
         return ResponseEntity.ok(projectsService.findAll());
     }
+    @GetMapping("/{id}")
+    @Operation(summary="Get project")
+    @ApiResponse(responseCode="200",description="succes")
+    public ResponseEntity<Projects> getProjectById(@PathVariable int id){
+        Projects a=projectsService.findId(id);
+        if (a==null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(a);
+    }
     @PutMapping("/{id}")
     @Operation(summary="Modify Project")
     @ApiResponse(responseCode = "200", description="succes")
     public ResponseEntity<Projects> updateProject(@PathVariable int id, @RequestBody Projects projects){
         if (projectsService.exists(id)){
-            return ResponseEntity.ok(projectsService.save(projects));
+            projectsService.delete(id);
+            projectsService.save(projects);
+            return ResponseEntity.ok(projects);
+//            return ResponseEntity.ok(projectsService.save(projects));
         }
         return ResponseEntity.notFound().build();
     }

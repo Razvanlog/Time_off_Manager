@@ -13,21 +13,20 @@ import java.time.LocalDate;
 public class TimeOffRequest {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    @Column(name="requestsId")
-    private int requestsId;
+    @Column(name="id",nullable = false,unique = true)
+    private int id;
     public int getRequestsId() {
-        return requestsId;
+        return id;
     }
     public void setRequestsId(int a) {
-        this.requestsId= a;
+        this.id= a;
     }
-    @ManyToOne
-    @JoinColumn(name="USERS",referencedColumnName="userid")
-    private User user;
-    public User getUser() {
+    @Column(name="user",nullable = false)
+    private int user;
+    public int getUser() {
         return user;
     }
-    public void setUser(User user) {
+    public void setUser(int user) {
         this.user = user;
     }
     @Column(name="start")

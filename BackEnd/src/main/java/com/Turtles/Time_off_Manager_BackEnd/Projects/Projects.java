@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 public class Projects {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column (name="id", unique = true, nullable = false)
     private int id;
     @Column(name="name",unique = true, nullable = false)
     private String name;

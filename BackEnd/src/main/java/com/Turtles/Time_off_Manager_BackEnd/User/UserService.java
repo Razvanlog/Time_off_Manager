@@ -21,6 +21,16 @@ public class UserService{
             return user.get();
         else return null;
     }
+    public User findByName(String name){
+        User a=repo.findByName(name);
+        if (a!=null){
+            return a;
+        }
+        return null;
+    }
+    public boolean exists(int id){
+        return repo.existsById(id);
+    }
     public void delete(int id){
         repo.deleteById(id);
     }

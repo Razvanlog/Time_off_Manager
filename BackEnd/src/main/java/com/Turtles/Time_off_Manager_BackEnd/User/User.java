@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="userid", unique = true)
+    @Column(name="id", unique = true, nullable = false)
     private int userId;
     public int getUserId() {
         return userId;
@@ -44,12 +44,12 @@ public class User {
     public void setPassword(String a) {
         password=a;
     }
-    @Column(name="role")
-    private int roleId;
-    public int getRoleId() {
-        return roleId;
-    }
-    public void setRoleId(int a) {
-        roleId=a;
-    }
+//    @Column(name="role")
+//    private int roleId;
+//    public int getRoleId() {
+//        return roleId;
+//    }
+//    public void setRoleId(int a) {
+//        roleId=a;
+//    }
 }

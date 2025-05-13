@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 public class Assignments {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @Column (name="id", unique = true, nullable = false)
     private int id;
     @Column (name="role",nullable = false)
     private int role;

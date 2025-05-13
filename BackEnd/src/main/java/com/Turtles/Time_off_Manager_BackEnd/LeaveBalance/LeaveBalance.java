@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name="LeaveBalance")
 public class LeaveBalance {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,13 +18,13 @@ public class LeaveBalance {
     public void setLeaveID(int leaveID) {
         this.leaveID = leaveID;
     }
-    @OneToOne(cascade = CascadeType.ALL,orphanRemoval = true)
-    @JoinColumn(name="userId")
-    private User user;
-    public User getUser() {
+//    @OneToOne(cascade = CascadeType.ALL,orphanRemoval = true)
+    @Column(name="user")
+    private int user;
+    public int getUser() {
         return user;
     }
-    public void setUser(User user) { this.user = user; }
+    public void setUser(int user) { this.user = user; }
     private int balance;
     public int getBalance() {
         return balance;
