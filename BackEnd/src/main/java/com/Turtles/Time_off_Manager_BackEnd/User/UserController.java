@@ -12,10 +12,12 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 
 @RestController
+
 @RequestMapping("/user")
 public class UserController {
     @Autowired
     private UserService service;
+    @CrossOrigin(origins="http://localhost:4200")
     @PostMapping
     @Operation(summary="Create User")
     @ApiResponse(responseCode="200", description = "succes")
@@ -23,6 +25,7 @@ public class UserController {
         User a=service.save(user);
         return ResponseEntity.ok(a);
     }
+    @CrossOrigin(origins="http://localhost:4200")
     @GetMapping
     @Operation(summary="Get all users")
     @ApiResponse(responseCode="200", description="succes")
@@ -30,6 +33,7 @@ public class UserController {
         List<User> users=service.findAll();
         return ResponseEntity.ok(users);
     }
+    @CrossOrigin(origins="http://localhost:4200")
     @GetMapping("/{id}")
     @Operation(summary="get a User with id")
     @ApiResponse(responseCode="200", description="succes")
@@ -40,6 +44,7 @@ public class UserController {
         }
         return ResponseEntity.ok(user);
     }
+    @CrossOrigin(origins="http://localhost:4200")
     @DeleteMapping
     @Operation(summary="Delete User by Id")
     @ApiResponse(responseCode="200", description="succes")
@@ -48,6 +53,7 @@ public class UserController {
         service.delete(id);
         return ResponseEntity.ok(user);
     }
+    @CrossOrigin(origins="http://localhost:4200")
     @PutMapping("/{id}")
     @Operation(summary="Modify User")
     @ApiResponse(responseCode="200", description="succes")

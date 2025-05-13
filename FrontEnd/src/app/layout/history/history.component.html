@@ -1,0 +1,20 @@
+<h2>Time-Off Request History</h2>
+
+<table>
+  <thead>
+  <tr>
+    <th>Start Date</th>
+    <th>End Date</th>
+    <th>Type</th>
+    <th>Notes</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let req of requests">
+    <td>{{ req.startDate }}</td>
+    <td>{{ req.endDate }}</td>
+    <td>{{ req.leaveType }}</td>
+    <td>{{ req.notes }}</td>
+  </tr>
+  </tbody>
+</table>

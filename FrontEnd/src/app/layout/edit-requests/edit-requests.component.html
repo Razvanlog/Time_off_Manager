@@ -1,0 +1,43 @@
+<h2>Edit Time-Off Requests</h2>
+
+<table>
+  <thead>
+  <tr>
+    <th>Start</th>
+    <th>End</th>
+    <th>Type</th>
+    <th>Notes</th>
+    <th>Actions</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let req of requests">
+    <ng-container *ngIf="editingId === req.id && editedRequest; else viewMode">
+      <td><input [(ngModel)]="editedRequest.startDate" type="date" /></td>
+      <td><input [(ngModel)]="editedRequest.endDate" type="date" /></td>
+      <td>
+        <select [(ngModel)]="editedRequest.leaveType">
+          <option value="vacation">Vacation</option>
+          <option value="sick">Sick</option>
+          <option value="personal">Personal</option>
+        </select>
+      </td>
+      <td><input [(ngModel)]="editedRequest.notes" /></td>
+      <td>
+        <button (click)="saveChanges()">Save</button>
+        <button (click)="cancelEditing()">Cancel</button>
+      </td>
+    </ng-container>
+
+    <ng-template #viewMode>
+      <td>{{ req.startDate }}</td>
+      <td>{{ req.endDate }}</td>
+      <td>{{ req.leaveType }}</td>
+      <td>{{ req.notes }}</td>
+      <td>
+        <button (click)="startEditing(req)">Edit</button>
+      </td>
+    </ng-template>
+  </tr>
+  </tbody>
+</table>

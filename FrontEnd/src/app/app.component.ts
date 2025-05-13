@@ -4,10 +4,12 @@ import {UserService} from './User/user.service';
 import { Router,RouterOutlet} from '@angular/router'
 import {HttpClient} from '@angular/common/http'
 import {HeaderComponent} from './core/header/header.component'
-import {TeamComponent} from './team/team.component';
+import {TeamComponent} from './layout/team/team.component';
+import {FormsModule} from '@angular/forms';
+
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, HeaderComponent],
+  imports: [RouterOutlet, HeaderComponent, FormsModule],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
   providers: [UserService]
