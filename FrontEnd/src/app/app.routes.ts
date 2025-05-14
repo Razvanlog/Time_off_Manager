@@ -19,33 +19,33 @@ export const routes: Routes = [
   },
   {
     path: "home",
-    // component: HomeComponent
-    loadComponent: () => import('./layout/home/home.component').then(c => c.HomeComponent)
+    component: HomeComponent
+    // loadComponent: () => import('./layout/home/home.component').then(c => c.HomeComponent)
   },
   {
     path: "submit-request",
-    // component: SubmitRequestComponent
-    loadComponent: () => import('./layout/submit-request/submit-request.component').then(c => c.SubmitRequestComponent)
+    component: SubmitRequestComponent
+    // loadComponent: () => import('./layout/submit-request/submit-request.component').then(c => c.SubmitRequestComponent)
   },
   {
     path: "edit-requests",
-    // component: EditRequestsComponent
-    loadComponent: () => import('./layout/edit-requests/edit-requests.component').then(c => c.EditRequestsComponent)
+    component: EditRequestsComponent
+    // loadComponent: () => import('./layout/edit-requests/edit-requests.component').then(c => c.EditRequestsComponent)
   },
   {
     path: "history",
-    // component: HistoryComponent
-    loadComponent: () => import('./layout/history/history.component').then(c => c.HistoryComponent)
+    component: HistoryComponent
+    // loadComponent: () => import('./layout/history/history.component').then(c => c.HistoryComponent)
   },
   {
     path: "review",
-    // component: ManagerPartComponent
-    loadComponent: () => import('./layout/manager-part/manager-part.component').then(c => c.ManagerPartComponent)
+    component: ManagerPartComponent
+    // loadComponent: () => import('./layout/manager-part/manager-part.component').then(c => c.ManagerPartComponent)
   },
   {
     path: "team",
-    // component: TeamComponent
-    loadComponent: () => import('./layout/team/team.component').then(c => c.TeamComponent)
+    component: TeamComponent
+    // loadComponent: () => import('./layout/team/team.component').then(c => c.TeamComponent)
   }
 ];
 
