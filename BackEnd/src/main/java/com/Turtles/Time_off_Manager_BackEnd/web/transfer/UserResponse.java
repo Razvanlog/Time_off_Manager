@@ -1,21 +1,28 @@
 package com.Turtles.Time_off_Manager_BackEnd.web.transfer;
 
+import com.Turtles.Time_off_Manager_BackEnd.Projects.Projects;
+
 import java.util.List;
 public class UserResponse {
     private String name;
     private String email;
     private String password;
     private List<TimeOffRequestResponse> requests;
+    private ProjectResponse project;
     //get and set
     public String getName() {return this.name;}
     public String getEmail() {return this.email;}
     public String getPassword() {return this.password;}
     public List<TimeOffRequestResponse> getRequests() {return this.requests;}
+    public ProjectResponse getProject() {return this.project;}
 
     public void setName(String name) {this.name = name;}
     public void setEmail(String email) {this.email = email;}
     public void setPassword(String password) {this.password = password;}
     public void setRequests(List<TimeOffRequestResponse> requests) {this.requests = requests;}
+    public void setProject(ProjectResponse a) {
+        project=a;
+    }
 
     public void addRequest(TimeOffRequestResponse request) {requests.add(request);}
 

@@ -1,5 +1,6 @@
 package com.Turtles.Time_off_Manager_BackEnd.web.transfer;
 
+import com.Turtles.Time_off_Manager_BackEnd.Projects.Projects;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import java.util.List;
@@ -13,6 +14,7 @@ public class CreateUserRequest {
     private String password;
 
     List<CreateTimeOffRequest>requests;
+    CreateProjectRequest project;
 
     //get and set
 
@@ -28,7 +30,9 @@ public class CreateUserRequest {
     public void setRequests(List<CreateTimeOffRequest> a){
         requests=a;
     }
-
+    public void setProject(CreateProjectRequest a) {
+        project=a;
+    }
     public String getName(){return this.name;}
     public String getEmail(){return this.email;}
     public String getPassword(){return this.password;}
@@ -37,6 +41,10 @@ public class CreateUserRequest {
     public void addRequest(CreateTimeOffRequest a){
         this.requests.add(a);
     }
+    public CreateProjectRequest getProject() {
+        return project;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (null == o || this.getClass()!=o.getClass())  return false;

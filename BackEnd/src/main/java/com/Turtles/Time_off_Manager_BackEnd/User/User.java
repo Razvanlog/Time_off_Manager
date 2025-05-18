@@ -49,7 +49,7 @@ public class User {
         password=a;
     }
     @OneToMany(mappedBy="user",cascade=CascadeType.ALL,orphanRemoval=true)
-    @JoinColumn(name="requests_id")
+//    @JoinColumn(name="requests_id")
     private List<TimeOffRequest> requests;
     public List<TimeOffRequest> getTimeOffRequests() {return requests;}
     public void setTimeOffRequests(List<TimeOffRequest> a) {
@@ -62,8 +62,14 @@ public class User {
         requests.remove(a);
     }
     @ManyToOne(cascade=CascadeType.ALL)
-    @JoinColumn(name="projectid",nullable = false)
+    @JoinColumn(name="projectid",nullable = true)
     private Projects project;
+    public Projects getProject() {
+        return project;
+    }
+    public void setProject(Projects a) {
+        project=a;
+    }
 //    @Column(name="role")
 //    private int roleId;
 //    public int getRoleId() {

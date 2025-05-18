@@ -4,30 +4,30 @@ import java.util.List;
 
 public class ProjectResponse {
     private String name;
-    private CreateUserRequest manager;
-    private List<CreateUserRequest> employees;
+    private UserResponse manager;
+    private List<UserResponse> employees;
     public void setName(String a){
         this.name = a;
     }
     public String getName(){
         return this.name;
     }
-    public void setManager(CreateUserRequest a){
+    public void setManager(UserResponse a){
         this.manager = a;
     }
-    public CreateUserRequest getManager(){
+    public UserResponse getManager(){
         return this.manager;
     }
-    public void setEmployees(List<CreateUserRequest> a){
+    public void setEmployees(List<UserResponse> a){
         this.employees = a;
     }
-    public void addEmployee(CreateUserRequest a){
+    public void addEmployee(UserResponse a){
         this.employees.add(a);
     }
-    public void removeEmployee(CreateUserRequest a){
+    public void removeEmployee(UserResponse a){
         this.employees.remove(a);
     }
-    public List<CreateUserRequest> getEmployees(){
+    public List<UserResponse> getEmployees(){
         return this.employees;
     }
     @Override

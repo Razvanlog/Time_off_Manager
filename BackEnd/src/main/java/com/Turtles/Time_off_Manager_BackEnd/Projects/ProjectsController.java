@@ -1,4 +1,8 @@
 package com.Turtles.Time_off_Manager_BackEnd.Projects;
+import com.Turtles.Time_off_Manager_BackEnd.User.UserService;
+import com.Turtles.Time_off_Manager_BackEnd.web.transfer.CreateProjectRequest;
+import com.Turtles.Time_off_Manager_BackEnd.web.transfer.ProjectResponse;
+import com.Turtles.Time_off_Manager_BackEnd.web.transfer.UserResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,49 +20,54 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 public class ProjectsController {
     @Autowired
     private ProjectsService projectsService;
+    @Autowired
+    private UserService userService;
     @PostMapping
     @Operation(summary="Create Project")
     @ApiResponse(responseCode = "200", description="succes")
-    public ResponseEntity<Projects> saveProject(@RequestBody Projects projects){
+    public ResponseEntity<ProjectResponse> saveProject(@RequestBody CreateProjectRequest projects){
         return ResponseEntity.ok(projectsService.save(projects));
     }
     @GetMapping
     @Operation(summary="Get all projects")
     @ApiResponse(responseCode="200", description="succes")
-    public ResponseEntity<List<Projects>> getAllProjects(){
+    public ResponseEntity<List<ProjectResponse>> getAllProjects(){
         return ResponseEntity.ok(projectsService.findAll());
     }
-    @GetMapping("/{id}")
-    @Operation(summary="Get project")
+    @GetMapping("/{managerEmail}")
+    @Operation(summary="Get project by Manager email")
     @ApiResponse(responseCode="200",description="succes")
-    public ResponseEntity<Projects> getProjectById(@PathVariable int id){
-        Projects a=projectsService.findId(id);
+    public ResponseEntity<ProjectResponse> getProjectByManagerEmail(@PathVariable String manageremail){
+//        Projects a=projectsService.findId(id);
+        UserResponse a=userService.findByEmail(manageremail);
         if (a==null) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(a);
+        return ResponseEntity.ok(a.getProject());
     }
-    @PutMapping("/{id}")
-    @Operation(summary="Modify Project")
-    @ApiResponse(responseCode = "200", description="succes")
-    public ResponseEntity<Projects> updateProject(@PathVariable int id, @RequestBody Projects projects){
-        if (projectsService.exists(id)){
-            projectsService.delete(id);
-            projectsService.save(projects);
-            return ResponseEntity.ok(projects);
-//            return ResponseEntity.ok(projectsService.save(projects));
-        }
-        return ResponseEntity.notFound().build();
-    }
-    @DeleteMapping("/{id}")
+//    @PutMapping("/{id}")
+//    @Operation(summary="Modify Project")
+//    @ApiResponse(responseCode = "200", description="succes")
+//    public ResponseEntity<Projects> updateProject(@PathVariable int id, @RequestBody Projects projects){
+//        if (projectsService.exists(id)){
+//            projectsService.delete(id);
+//            projectsService.save(projects);
+//            return ResponseEntity.ok(projects);
+////            return ResponseEntity.ok(projectsService.save(projects));
+//        }
+//        return ResponseEntity.notFound().build();
+//    }
+    @DeleteMapping("/{Name}")
     @Operation(summary="Delete Project")
     @ApiResponse(responseCode = "200", description="succes")
-    public ResponseEntity<Projects> deleteProject(@PathVariable int id){
-        Projects a=projectsService.findId(id);
-        if (a==null){
-            return ResponseEntity.notFound().build();
-        }
-        projectsService.delete(id);
+    public ResponseEntity<ProjectResponse> deleteProject(@PathVariable String Name){
+//        Projects a=projectsService.findId(id);
+//        if (a==null){
+//            return ResponseEntity.notFound().build();
+//        }
+//        projectsService.delete(id);
+//        return ResponseEntity.ok(a);
+        ProjectResponse a=projectsService.delete(Name);
         return ResponseEntity.ok(a);
     }
 }

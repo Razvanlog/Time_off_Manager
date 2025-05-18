@@ -1,6 +1,10 @@
 package com.Turtles.Time_off_Manager_BackEnd.Projects;
+import com.Turtles.Time_off_Manager_BackEnd.User.UserMapper;
+import com.Turtles.Time_off_Manager_BackEnd.User.UserResponseMapper;
 import com.Turtles.Time_off_Manager_BackEnd.User.UserService;
 import com.Turtles.Time_off_Manager_BackEnd.web.transfer.CreateProjectRequest;
+import com.Turtles.Time_off_Manager_BackEnd.web.transfer.CreateUserRequest;
+import com.Turtles.Time_off_Manager_BackEnd.web.transfer.ProjectResponse;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.Turtles.Time_off_Manager_BackEnd.User.User;
@@ -14,35 +18,54 @@ public class ProjectsService {
     private ProjectsRepository repo;
     @Autowired
     private UserService userService;
-    public Projects save(CreateProjectRequest project) {
+    private final ProjectMapper mapper = new ProjectMapper();
+    private final ProjectResponseMapper responseMapper = new ProjectResponseMapper();
+    private final UserMapper userMapper=new UserMapper();
+    private final UserResponseMapper userResponseMapper=new UserResponseMapper();
+    @Autowired
+    private ProjectMapper projectMapper;
+    @Autowired
+    private ProjectResponseMapper projectResponseMapper;
 
-//        UserResponse a=userService.findById(project.getManagerId());
-        if (a!=null)
-            return repo.save(project);
-        else return null;
+    public ProjectResponse save(CreateProjectRequest project) {
+        Projects a=mapper.map(project);
+        repo.save(a);
+        ProjectResponse r=responseMapper.map(a);
+        return r;
     }
-    public Projects findId(int id){
-        if (repo.existsById(id)){
-            return repo.findById(id).get();
+//    public ProjectResponse findByEmail(String email){
+//        UserResponse user=userService.findByEmail(email);
+//        Optional<Projects> p=repo.findByManager();
+//        if (p.isEmpty()){
+//            return null;
+//        }
+//        ProjectResponse r=responseMapper.map(p.get());
+//        return r;
+//    }
+    public ProjectResponse findByName(String name){
+        Optional<Projects> p=repo.findByName(name);
+        if (p.isEmpty()){
+            return null;
         }
-        return null;
-//        return repo.findById(id).get();
+        ProjectResponse r=responseMapper.map(p.get());
+        return r;
     }
-    public UserResponse findManager(int managerId){
-        return userService.findById(managerId);
-    }
-    public List<Projects> findAll(){
-        return repo.findAll();
-    }
-    public boolean exists(int id){
-        return repo.existsById(id);
-    }
-    public Projects delete(int id){
-        if (repo.existsById(id)) {
-            Projects projects = repo.findById(id).get();
-            repo.deleteById(id);
-            return projects;
+    public ProjectResponse findByManager(CreateUserRequest user){
+        User a=userMapper.map(user);
+        Optional<Projects> b=repo.findByName(a.getName());
+        if (b.isEmpty()){
+            return null;
         }
-        return null;
+        return responseMapper.map(b.get());
+    }
+    public List<ProjectResponse> findAll(){
+        return repo.findAll().stream().map(responseMapper::map).toList();
+    }
+    public ProjectResponse delete(String project) {
+        Optional <Projects> a=repo.findByName(project);
+        if (a.isEmpty()){
+            return null;
+        }
+        return projectResponseMapper.map(a.get());
     }
 }
