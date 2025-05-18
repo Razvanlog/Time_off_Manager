@@ -10,61 +10,70 @@ import java.util.List;
 import org.springframework.http.ResponseEntity;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-
+import com.Turtles.Time_off_Manager_BackEnd.web.transfer.CreateUserRequest;
+import com.Turtles.Time_off_Manager_BackEnd.web.transfer.UserResponse;
 @RestController
 
 @RequestMapping("/user")
 public class UserController {
     @Autowired
     private UserService service;
+    @Autowired
+    private UserMapper userMapper;
+    @Autowired
+    private UserResponseMapper userResponseMapper;
+    @Autowired
+    private UserRepository userRepository;
+
     @CrossOrigin(origins="http://localhost:4200")
     @PostMapping
     @Operation(summary="Create User")
     @ApiResponse(responseCode="200", description = "succes")
-    public ResponseEntity<User> saveUser(@RequestBody User user){
-        User a=service.save(user);
-        return ResponseEntity.ok(a);
+    public ResponseEntity<UserResponse> saveUser(@RequestBody CreateUserRequest createUserRequest){
+        User a=service.save(createUserRequest);
+        UserResponseMapper userResponseMapper=new UserResponseMapper();
+        return ResponseEntity.ok(userResponseMapper.map(a));
     }
     @CrossOrigin(origins="http://localhost:4200")
     @GetMapping
     @Operation(summary="Get all users")
     @ApiResponse(responseCode="200", description="succes")
-    public ResponseEntity<List<User>> getAllUsers(){
-        List<User> users=service.findAll();
+    public ResponseEntity<List<UserResponse>> getAllUsers(){
+        List<UserResponse> users=service.findAll();
         return ResponseEntity.ok(users);
     }
     @CrossOrigin(origins="http://localhost:4200")
-    @GetMapping("/{id}")
-    @Operation(summary="get a User with id")
+    @GetMapping("/{email}")
+    @Operation(summary="get a User with email")
     @ApiResponse(responseCode="200", description="succes")
-    public ResponseEntity<User> getUserById(@PathVariable int id){
-        User user=service.findById(id);
+    public ResponseEntity<UserResponse> getUserByEmail(@PathVariable String email){
+        UserResponse user=service.findByEmail(email);
         if (user==null){
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(user);
     }
     @CrossOrigin(origins="http://localhost:4200")
-    @DeleteMapping
-    @Operation(summary="Delete User by Id")
+    @DeleteMapping("/{email}")
+    @Operation(summary="Delete User by email")
     @ApiResponse(responseCode="200", description="succes")
-    public ResponseEntity<User> deleteUserByID(@RequestBody int id){
-        User user=service.findById(id);
-        service.delete(id);
+    public ResponseEntity<UserResponse> deleteUser(@PathVariable String email){
+//        UserResponse user=userResponseMapper.map(userRepository.findByEmail(email));
+        UserResponse user=service.delete(email);
         return ResponseEntity.ok(user);
     }
-    @CrossOrigin(origins="http://localhost:4200")
-    @PutMapping("/{id}")
-    @Operation(summary="Modify User")
-    @ApiResponse(responseCode="200", description="succes")
-    public ResponseEntity<User> updateUser(@PathVariable int id, @RequestBody User user) {
-        if (service.exists(id)){
-            User u=service.findById(id);
-            u.setName(user.getName());
-            u.setEmail(user.getEmail());
-            u.setPassword(user.getPassword());
-            return ResponseEntity.ok(service.save(u));
-        }
-        else return ResponseEntity.notFound().build();
-    }
+//    @CrossOrigin(origins="http://localhost:4200")
+//    @PutMapping("/{id}")
+//    @Operation(summary="Modify User")
+//    @ApiResponse(responseCode="200", description="succes")
+//    public ResponseEntity<User> updateUser(@PathVariable int id, @RequestBody User user) {
+//        if (service.exists(id)){
+//            User u=service.findById(id);
+//            u.setName(user.getName());
+//            u.setEmail(user.getEmail());
+//            u.setPassword(user.getPassword());
+//            return ResponseEntity.ok(service.save(u));
+//        }
+//        else return ResponseEntity.notFound().build();
+//    }
 }

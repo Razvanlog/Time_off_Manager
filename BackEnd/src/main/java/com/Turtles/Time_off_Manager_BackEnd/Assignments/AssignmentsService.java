@@ -7,7 +7,7 @@ import com.Turtles.Time_off_Manager_BackEnd.User.User;
 import com.Turtles.Time_off_Manager_BackEnd.User.UserService;
 import com.Turtles.Time_off_Manager_BackEnd.Projects.Projects;
 import com.Turtles.Time_off_Manager_BackEnd.Projects.ProjectsService;
-
+import com.Turtles.Time_off_Manager_BackEnd.web.transfer.UserResponse;
 import java.util.List;
 import java.util.Optional;
 @Service
@@ -19,7 +19,7 @@ public class AssignmentsService {
     @Autowired
     ProjectsService projectService;
     public Assignments save(Assignments assignments) {
-        User a=userService.findById(assignments.getUser());
+        UserResponse a=userService.findById(assignments.getUser());
         Projects b=projectService.findId(assignments.getProject());
         if (a!=null && b!=null) {
             return repo.save(assignments);

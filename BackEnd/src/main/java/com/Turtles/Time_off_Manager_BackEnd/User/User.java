@@ -1,9 +1,13 @@
 package com.Turtles.Time_off_Manager_BackEnd.User;
 
+import com.Turtles.Time_off_Manager_BackEnd.TimeOffRequest.TimeOffRequest;
+import com.Turtles.Time_off_Manager_BackEnd.Projects.Projects;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import java.util.List;
 //import lombok.Getter;
 @Entity
 @NoArgsConstructor
@@ -44,6 +48,22 @@ public class User {
     public void setPassword(String a) {
         password=a;
     }
+    @OneToMany(mappedBy="user",cascade=CascadeType.ALL,orphanRemoval=true)
+    @JoinColumn(name="requests_id")
+    private List<TimeOffRequest> requests;
+    public List<TimeOffRequest> getTimeOffRequests() {return requests;}
+    public void setTimeOffRequests(List<TimeOffRequest> a) {
+        requests=a;
+    }
+    public void addTimeOffRequest(TimeOffRequest a) {
+        requests.add(a);
+    }
+    public void removeTimeOffRequest(TimeOffRequest a) {
+        requests.remove(a);
+    }
+    @ManyToOne(cascade=CascadeType.ALL)
+    @JoinColumn(name="projectid",nullable = false)
+    private Projects project;
 //    @Column(name="role")
 //    private int roleId;
 //    public int getRoleId() {

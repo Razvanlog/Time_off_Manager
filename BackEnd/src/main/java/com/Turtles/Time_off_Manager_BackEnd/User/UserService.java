@@ -1,40 +1,70 @@
 package com.Turtles.Time_off_Manager_BackEnd.User;
+import com.Turtles.Time_off_Manager_BackEnd.web.transfer.CreateUserRequest;
+import com.Turtles.Time_off_Manager_BackEnd.web.transfer.UserResponse;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class UserService{
+
     @Autowired
     private UserRepository repo;
-    public User save(User user){
-        return repo.save(user);
+
+    private final UserMapper userMapper=new UserMapper();
+    private final UserResponseMapper userResponseMapper=new UserResponseMapper();
+
+//    UserService(UserMapper userMapper, UserResponseMapper userResponseMapper) {
+//        this.userMapper = userMapper;
+//        this.userResponseMapper = userResponseMapper;
+//    }
+
+    public User save(CreateUserRequest createUserRequest) {
+        User user=userMapper.map(createUserRequest);
+        repo.save(user);
+        return user;
     }
-    public List<User> findAll(){
-        return repo.findAll();
+    public List<UserResponse> findAll(){
+        return repo.findAll().stream().map(userResponseMapper::map).toList();
     }
-    public User findById(int id){
+    public UserResponse findById(int id){
         Optional<User> user = repo.findById(id);
-        if (user.isPresent())
-            return user.get();
-        else return null;
+        if (user.isEmpty())
+            return null;
+        else return userResponseMapper.map(user.get());
     }
-    public User findByName(String name){
-        User a=repo.findByName(name);
-        if (a!=null){
-            return a;
+    public UserResponse findByName(String name){
+        Optional<User> user = repo.findByName(name);
+        if (user.isEmpty()){
+            return null;
         }
-        return null;
+        return userResponseMapper.map(user.get());
     }
-    public boolean exists(int id){
-        return repo.existsById(id);
+    public UserResponse findByEmail(String email){
+        Optional<User> user = repo.findByEmail(email);
+        if (user.isEmpty()){
+            return null;
+        }
+        return userResponseMapper.map(user.get());
     }
-    public void delete(int id){
-        repo.deleteById(id);
+    public boolean exists(String email){
+        return repo.existsByEmail(email);
     }
-    public void update(User user){
+    public UserResponse delete(String email){
+        Optional<User> user=repo.findByEmail(email);
+        if (user.isEmpty()){
+            return null;
+        }
+        repo.delete(user.get());
+        return userResponseMapper.map(user.get());
+//        int id=repo.findByEmail(email).getUserId();
+//        repo.deleteById(id);
+    }
+    public void update(CreateUserRequest createUserRequest){
+        User user=userMapper.map(createUserRequest);
         repo.save(user);
     }
 }

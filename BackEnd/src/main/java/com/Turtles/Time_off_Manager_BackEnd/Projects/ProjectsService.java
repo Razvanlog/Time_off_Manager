@@ -1,8 +1,11 @@
 package com.Turtles.Time_off_Manager_BackEnd.Projects;
 import com.Turtles.Time_off_Manager_BackEnd.User.UserService;
+import com.Turtles.Time_off_Manager_BackEnd.web.transfer.CreateProjectRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.Turtles.Time_off_Manager_BackEnd.User.User;
+import com.Turtles.Time_off_Manager_BackEnd.web.transfer.UserResponse;
+
 import java.util.List;
 import java.util.Optional;
 @Service
@@ -11,8 +14,9 @@ public class ProjectsService {
     private ProjectsRepository repo;
     @Autowired
     private UserService userService;
-    public Projects save(Projects project) {
-        User a=userService.findById(project.getManagerId());
+    public Projects save(CreateProjectRequest project) {
+
+//        UserResponse a=userService.findById(project.getManagerId());
         if (a!=null)
             return repo.save(project);
         else return null;
@@ -24,7 +28,7 @@ public class ProjectsService {
         return null;
 //        return repo.findById(id).get();
     }
-    public User findManager(int managerId){
+    public UserResponse findManager(int managerId){
         return userService.findById(managerId);
     }
     public List<Projects> findAll(){

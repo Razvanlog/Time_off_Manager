@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 //import lombok.Getter;
 import java.time.LocalDate;
-
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
@@ -15,38 +14,48 @@ public class TimeOffRequest {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name="id",nullable = false,unique = true)
     private int id;
+    @Column(name="description")
+    private String description;
+    @Column(name="type")
+    private int type;
+    @Column(name="status")
+    private int status;
+    @Column(name="start")
+    private LocalDate start;
+    @Column(name="end")
+    private LocalDate end;
+    @ManyToOne(cascade=CascadeType.ALL)
+    @JoinColumn(name="user_id",nullable=false)
+    private User user;
+
+    public String getDescription(){return this.description;}
+    public void setDescription(String description){this.description = description;}
+    public int getType(){return this.type;}
+    public void setType(int type){this.type = type;}
     public int getRequestsId() {
         return id;
     }
     public void setRequestsId(int a) {
         this.id= a;
     }
-    @Column(name="user",nullable = false)
-    private int user;
-    public int getUser() {
+    public User getUser() {
         return user;
     }
-    public void setUser(int user) {
+    public void setUser(User user) {
         this.user = user;
     }
-    @Column(name="start")
-    LocalDate start;
     public LocalDate getStart() {
         return start;
     }
     public void setStart(LocalDate start) {
         this.start = start;
     }
-    @Column(name="end")
-    LocalDate end;
     public LocalDate getEnd() {
         return end;
     }
     public void setEnd(LocalDate end) {
         this.end = end;
     }
-    @Column(name="status")
-    int status;
     public int getStatus() {
         return status;
     }
