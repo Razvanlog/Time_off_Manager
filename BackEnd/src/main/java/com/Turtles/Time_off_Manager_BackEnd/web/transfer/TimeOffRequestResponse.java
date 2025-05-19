@@ -40,4 +40,7 @@ public class TimeOffRequestResponse {
         TimeOffRequestResponse that=(TimeOffRequestResponse) o;
         return this.start.equals(that.start) && this.end.equals(that.end) && this.description.equals(that.description);
     }
-}
+
+    public void setLeaveType(String name) { this.type=type;}
+    }
+

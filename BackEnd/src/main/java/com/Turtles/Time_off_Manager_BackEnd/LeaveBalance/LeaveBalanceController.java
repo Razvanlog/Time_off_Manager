@@ -23,7 +23,7 @@ public class LeaveBalanceController {
     }
     @GetMapping("/{userId}")
     public ResponseEntity<LeaveBalance> getLeaveBalance(@PathVariable("userID") int userId) {
-        LeaveBalance leaveBalance=service.findByUserId(userId);
+        LeaveBalance leaveBalance=service.findByUserId((long) userId);
         return ResponseEntity.ok(leaveBalance);
     }
 }

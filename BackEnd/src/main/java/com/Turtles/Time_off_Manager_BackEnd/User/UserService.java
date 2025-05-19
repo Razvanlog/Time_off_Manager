@@ -30,7 +30,7 @@ public class UserService{
     public List<UserResponse> findAll(){
         return repo.findAll().stream().map(userResponseMapper::map).toList();
     }
-    public UserResponse findById(int id){
+    public UserResponse findById(Long id){
         Optional<User> user = repo.findById(id);
         if (user.isEmpty())
             return null;

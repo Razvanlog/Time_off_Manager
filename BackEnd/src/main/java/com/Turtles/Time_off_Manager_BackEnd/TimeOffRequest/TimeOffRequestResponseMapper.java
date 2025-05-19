@@ -11,11 +11,13 @@ public class TimeOffRequestResponseMapper {
     public TimeOffRequestResponse map(TimeOffRequest timeOffRequest) {
         TimeOffRequestResponse timeOffRequestResponse = new TimeOffRequestResponse();
         timeOffRequestResponse.setDescription(timeOffRequest.getDescription());
-        timeOffRequestResponse.setEnd(timeOffRequest.getEnd());
-        timeOffRequestResponse.setStart(timeOffRequest.getStart());
+        timeOffRequestResponse.setEnd(timeOffRequest.getEndDate());
+        timeOffRequestResponse.setStart(timeOffRequest.getStartDate());
         UserResponse user=userResponseMapper.map(timeOffRequest.getUser());
         timeOffRequestResponse.setUser(user);
-        timeOffRequestResponse.setType(timeOffRequest.getType());
+        if (timeOffRequest.getLeaveType() != null) {
+            timeOffRequestResponse.setLeaveType(timeOffRequest.getLeaveType().name());
+        }
         timeOffRequestResponse.setStatus(timeOffRequest.getStatus());
         return timeOffRequestResponse;
     }

@@ -4,6 +4,7 @@ import com.Turtles.Time_off_Manager_BackEnd.User.UserRepository;
 import com.Turtles.Time_off_Manager_BackEnd.web.transfer.CreateTimeOffRequest;
 import com.Turtles.Time_off_Manager_BackEnd.web.transfer.CreateUserRequest;
 import com.Turtles.Time_off_Manager_BackEnd.web.transfer.TimeOffRequestResponse;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -12,30 +13,43 @@ import java.util.List;
 import java.util.Optional;
 @Service
 public class TimeOffRequestsService {
-    @Autowired
-    private TimeOffRequestsRepository repo;
-    @Autowired
-    private UserRepository userRepo;
-    private final TimeOffRequestMapper mapper = new TimeOffRequestMapper();
-    private final TimeOffRequestResponseMapper responseMapper = new TimeOffRequestResponseMapper();
-    public TimeOffRequestResponse save(CreateTimeOffRequest timeOffRequest) {
-        TimeOffRequest request=mapper.map(timeOffRequest);
-        repo.save(request);
-        TimeOffRequestResponse a=responseMapper.map(request);
-        return a;
-//        timeOffRequest.setUser(user);
-//        user.addRequest(timeOffRequest);
+    private final TimeOffRequestsRepository repo;
+    private final UserRepository userRepo;
+    private final TimeOffRequestMapper mapper;
+    private final TimeOffRequestResponseMapper responseMapper;
 
+    @Autowired
+    public TimeOffRequestsService(TimeOffRequestsRepository repo,
+                                  UserRepository userRepo,
+                                  TimeOffRequestMapper mapper,
+                                  TimeOffRequestResponseMapper responseMapper) {
+        this.repo = repo;
+        this.userRepo = userRepo;
+        this.mapper = mapper;
+        this.responseMapper = responseMapper;
+    }
+
+    public TimeOffRequestResponse save(CreateTimeOffRequest createDto) {
+        Long userId = createDto.getUserId();
+        if (userId == null) {
+            throw new IllegalArgumentException("User ID must be provided in the request.");
+        }
+        User userEntity = userRepo.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException("User not found with ID: " + userId));
+        TimeOffRequest requestEntity = mapper.map(createDto, userEntity);
+
+        if (requestEntity.getEndDate().isBefore(requestEntity.getStartDate())) {
+            throw new IllegalArgumentException("End date cannot be before start date.");
+        }
+
+        TimeOffRequest savedEntity = repo.save(requestEntity);
+        return responseMapper.map(savedEntity);
     }
     public List<TimeOffRequestResponse> findAll() {
     return repo.findAll().stream().map(responseMapper::map).toList();
     }
     public List<TimeOffRequestResponse> findByUser(String email){
-//        Optional <TimeOffRequest> optional = repo.findById(id);
-//        if (optional.isPresent()) {
-//            return optional.get();
-//        }
-//        else return null;
+
         Optional<User> user=userRepo.findByEmail(email);
         List<TimeOffRequestResponse> a=new ArrayList<>();
         if (user.isEmpty()){
@@ -43,14 +57,10 @@ public class TimeOffRequestsService {
         }
         return repo.findByUser(user.get()).stream().map(responseMapper::map).toList();
     }
-//    public List<TimeOffRequest> findByUserId(User user){
-//        return repo.findByUser(user);
+
+//    public void delete(CreateTimeOffRequest timeOffRequest) {
+//        TimeOffRequest request=mapper.map(timeOffRequest);
+//        repo.delete(request);
 //    }
-    public void delete(CreateTimeOffRequest timeOffRequest) {
-        TimeOffRequest request=mapper.map(timeOffRequest);
-        repo.delete(request);
-    }
-//    public void update(CreateTimeOffRequest timeOffRequest) {
-//        repo.save(timeOffRequest);
-//    }
+
 }

@@ -15,19 +15,19 @@ public class LeaveBalanceService {
         return repo.save(leaveBalance);
     }
     public LeaveBalance findById(int id) {
-        Optional<LeaveBalance> leaveBalance = repo.findById(id);
+        Optional<LeaveBalance> leaveBalance = repo.findById((long) id);
         if (leaveBalance.isPresent()) {
             return leaveBalance.get();
         }
         else return null;
     }
     public void delete(int id) {
-        repo.deleteById(id);
+        repo.deleteById((long) id);
     }
     public void update(LeaveBalance leaveBalance) {
         repo.save(leaveBalance);
     }
-    public LeaveBalance findByUserId(int id) {
+    public LeaveBalance findByUserId(Long id) {
         Optional<User> user=userRepo.findById(id);
         if (user.isPresent()) {
             Optional<LeaveBalance> leaveBalance = repo.findByuser(user.get());

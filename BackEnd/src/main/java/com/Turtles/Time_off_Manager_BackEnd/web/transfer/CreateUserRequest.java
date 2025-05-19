@@ -16,7 +16,7 @@ public class CreateUserRequest {
     List<CreateTimeOffRequest>requests;
     CreateProjectRequest project;
 
-    //get and set
+
 
     public void setName(String a){
         this.name = a;

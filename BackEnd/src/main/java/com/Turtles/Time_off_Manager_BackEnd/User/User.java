@@ -17,11 +17,11 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id", unique = true, nullable = false)
-    private int userId;
-    public int getUserId() {
+    private Long userId;
+    public Long getUserId() {
         return userId;
     }
-    public void setUserId(int a) {
+    public void setUserId(Long a) {
         userId=a;
     }
     @Column (name="name",unique = true, nullable = false)

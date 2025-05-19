@@ -1,58 +1,98 @@
 package com.Turtles.Time_off_Manager_BackEnd.web.transfer;
 
+import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 public class CreateTimeOffRequest {
+
     @NotNull
+    private Long userId;
+
+    @NotNull
+    @FutureOrPresent
     private LocalDate start;
+
     @NotNull
+    @FutureOrPresent
     private LocalDate end;
-    @NotNull
-    private int type;
-    @NotNull
-    private int status;
+
+    @NotBlank
+    private String leaveType;
+
     private String description;
-    private CreateUserRequest createUserRequest;
+
+    @NotNull
+    @Positive
+    private Integer requestedDays;
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
 
     public LocalDate getStart() {
         return start;
     }
+
     public void setStart(LocalDate start) {
         this.start = start;
     }
+
     public LocalDate getEnd() {
         return end;
     }
+
     public void setEnd(LocalDate end) {
         this.end = end;
     }
-    public void setUser(CreateUserRequest createUserRequest) {this.createUserRequest = createUserRequest;}
-    public CreateUserRequest getUser(){ return this.createUserRequest;}
+
+    public String getLeaveType() {
+        return leaveType;
+    }
+
+    public void setLeaveType(String leaveType) {
+        this.leaveType = leaveType;
+    }
+
     public String getDescription() {
         return description;
     }
-    public void setDescription(String description) {this.description=description;}
-    public int getType() {
-        return type;
+
+    public void setDescription(String description) {
+        this.description = description;
     }
-    public void setType(int type) {
-        this.type = type;
+
+    public Integer getRequestedDays() {
+        return requestedDays;
     }
-    public int getStatus() {
-        return status;
+
+    public void setRequestedDays(Integer requestedDays) {
+        this.requestedDays = requestedDays;
     }
-    public void setStatus(int status) {
-        this.status = status;
-    }
+
     @Override
-    public boolean equals(Object o){
-        if (o == null || this.getClass() != o.getClass()){
-            return false;
-        }
-        CreateTimeOffRequest that=(CreateTimeOffRequest)o;
-        return this.start.equals(that.start) && this.end.equals(that.end) && this.description.equals(that.description);
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        CreateTimeOffRequest that = (CreateTimeOffRequest) o;
+        return Objects.equals(userId, that.userId) &&
+                Objects.equals(start, that.start) &&
+                Objects.equals(end, that.end) &&
+                Objects.equals(leaveType, that.leaveType) &&
+                Objects.equals(description, that.description) &&
+                Objects.equals(requestedDays, that.requestedDays);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(userId, start, end, leaveType, description, requestedDays);
     }
 }
