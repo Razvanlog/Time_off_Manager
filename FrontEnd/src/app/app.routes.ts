@@ -3,7 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import {CommonModule} from '@angular/common';
 import {BrowserModule} from '@angular/platform-browser';
 
-//WEBSITE COMPONENTS
+
 import { ManagerPartComponent } from './layout/manager-part/manager-part.component'
 import {HomeComponent} from './layout/home/home.component';
 import {TeamComponent} from './layout/team/team.component';
@@ -12,11 +12,11 @@ import {UserService} from './User/user.service';
 import {SubmitRequestComponent} from './layout/submit-request/submit-request.component';
 import {EditRequestsComponent} from './layout/edit-requests/edit-requests.component';
 import {HistoryComponent} from './layout/history/history.component';
+import { LoginComponent } from './layout/login/login.component';
+import { SignupComponent } from './layout/signup/signup.component';
 
 export const routes: Routes = [
-  {
-    path: "", redirectTo: "home", pathMatch: "full"
-  },
+  { path: '', redirectTo: 'login', pathMatch: 'full' },
   {
     path: "home",
     component: HomeComponent
@@ -46,7 +46,10 @@ export const routes: Routes = [
     path: "team",
     component: TeamComponent
     // loadComponent: () => import('./layout/team/team.component').then(c => c.TeamComponent)
-  }
+  },
+  { path: 'login', component: LoginComponent },
+  { path: 'signup', component: SignupComponent }
+
 ];
 
 @NgModule({

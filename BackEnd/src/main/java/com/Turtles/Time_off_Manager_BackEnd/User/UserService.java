@@ -67,4 +67,8 @@ public class UserService{
         User user=userMapper.map(createUserRequest);
         repo.save(user);
     }
+    public User findRawByEmail(String email) {
+        return repo.findByEmail(email).orElse(null);
+    }
+
 }

@@ -1,16 +1,30 @@
-import { TestBed } from '@angular/core/testing';
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
-import { UserService } from './user.service';
+export interface CreateUserRequest {
+  name: string;
+  email: string;
+  password: string;
+}
 
-describe('UserServiceService', () => {
-  let service: UserService;
+export interface UserResponse {
+  userId: number;
+  name: string;
+  email: string;
+}
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({});
-    service = TestBed.inject(UserService);
-  });
+@Injectable({ providedIn: 'root' })
+export class UserApiService {
+  private baseUrl = 'http://localhost:8080/api/users';
 
-  it('should be created', () => {
-    expect(service).toBeTruthy();
-  });
-});
+  constructor(private http: HttpClient) {}
+
+  signup(data: CreateUserRequest): Observable<UserResponse> {
+    return this.http.post<UserResponse>(`${this.baseUrl}/signup`, data);
+  }
+
+  login(data: CreateUserRequest): Observable<UserResponse> {
+    return this.http.post<UserResponse>(`${this.baseUrl}/login`, data);
+  }
+}
