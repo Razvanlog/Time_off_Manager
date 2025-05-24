@@ -9,7 +9,7 @@ public class TimeOffRequestResponse {
     private String userEmail;
     private int type;
     private int status;
-    private int requestUserNumber;
+    private Long requestUserNumber;
 
     public LocalDate getStart() {
         return start;
@@ -33,8 +33,8 @@ public class TimeOffRequestResponse {
     public void setType(int type) {this.type = type;}
     public int getStatus() {return status;}
     public void setStatus(int status) {this.status=status;}
-    public int getRequestUserNumber() {return requestUserNumber;}
-    public void setRequestUserNumber(int requestUserNumber) {this.requestUserNumber=requestUserNumber;}
+    public Long getRequestUserNumber() {return requestUserNumber;}
+    public void setRequestUserNumber(Long requestUserNumber) {this.requestUserNumber=requestUserNumber;}
 
     @Override
     public boolean equals(Object o){

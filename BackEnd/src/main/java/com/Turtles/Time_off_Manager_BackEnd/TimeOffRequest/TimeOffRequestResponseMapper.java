@@ -13,7 +13,7 @@ public class TimeOffRequestResponseMapper {
         timeOffRequestResponse.setDescription(timeOffRequest.getDescription());
         timeOffRequestResponse.setEnd(timeOffRequest.getEndDate());
         timeOffRequestResponse.setStart(timeOffRequest.getStartDate());
-        timeOffRequestResponse.setRequestUserNumber(timeOffRequestResponse.getRequestUserNumber());
+        timeOffRequestResponse.setRequestUserNumber(timeOffRequest.getRequestUserNumber());
 //        UserResponse user=userResponseMapper.map(timeOffRequest.getUser());
         timeOffRequestResponse.setUser(timeOffRequest.getUser().getEmail());
         if (timeOffRequest.getLeaveType() != null) {

@@ -64,6 +64,29 @@ public class TimeOffRequestsService {
         return responseMapper.map(t.get());
 //        TimeOffRequestResponse t=responseMapper.map();
     }
+    public TimeOffRequestResponse delete(String email,long nr){
+        Optional<User> user=userRepo.findByEmail(email);
+        if (user.isEmpty()){return null;}
+        Optional<TimeOffRequest> t=repo.findByUserEmailAndRequestUserNumber(email,nr);
+        if (t.isEmpty()){return null;}
+        repo.delete(t.get());
+        return responseMapper.map(t.get());
+    }
+    public TimeOffRequestResponse update(String email,long nr,CreateTimeOffRequest createDto){
+        Optional<User> user=userRepo.findByEmail(email);
+        if (user.isEmpty()){return null;}
+        Optional<TimeOffRequest> t=repo.findByUserEmailAndRequestUserNumber(email,nr);
+        if (t.isEmpty()){return null;}
+        TimeOffRequest toModifyEntity=t.get();
+        toModifyEntity.setDescription(createDto.getDescription());
+        toModifyEntity.setEndDate(createDto.getEnd());
+        toModifyEntity.setStartDate(createDto.getStart());
+        toModifyEntity.setLeaveType(toModifyEntity.getLeaveType());
+        toModifyEntity.setStartDate(toModifyEntity.getStartDate());
+        toModifyEntity.setRequestedDays(toModifyEntity.getRequestedDays());
+        repo.save(toModifyEntity);
+        return responseMapper.map(toModifyEntity);
+    }
 //    public void delete(CreateTimeOffRequest timeOffRequest) {
 //        TimeOffRequest request=mapper.map(timeOffRequest);
 //        repo.delete(request);

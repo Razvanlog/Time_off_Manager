@@ -54,6 +54,36 @@ public class TimeOffRequestController {
         TimeOffRequestResponse a1=service.findByUserAndNr(userMail,requestNumber);
         return ResponseEntity.ok(a1);
     }
+    @DeleteMapping("{userMail}/{requestNumber}")
+    @Operation(summary="delete TimeOffRequest with email and nr")
+    @ApiResponse(responseCode ="200",description="succes")
+    public ResponseEntity<TimeOffRequestResponse> deleteTimeOffRequest(@PathVariable("userMail") String userMail, @PathVariable("requestNumber") int requestNumber) {
+        User user=userService.findRawByEmail(userMail);
+        if (user==null){
+            return ResponseEntity.notFound().build();
+        }
+        List<TimeOffRequestResponse> a=service.findByUser(user.getEmail());
+        if (a.size()<requestNumber){
+            return ResponseEntity.notFound().build();
+        }
+        TimeOffRequestResponse a1=service.delete(userMail,requestNumber);
+        return ResponseEntity.ok(a1);
+    }
+    @PutMapping("{userMail}/{requestNumber}")
+    @Operation(summary="delete TimeOffRequest with email and nr")
+    @ApiResponse(responseCode ="200",description="succes")
+    public ResponseEntity<TimeOffRequestResponse> modifyTimeOffRequest(@PathVariable("userMail") String userMail, @PathVariable("requestNumber") int requestNumber,CreateTimeOffRequest timeOffRequest) {
+        User user=userService.findRawByEmail(userMail);
+        if (user==null){
+            return ResponseEntity.notFound().build();
+        }
+        List<TimeOffRequestResponse> a=service.findByUser(user.getEmail());
+        if (a.size()<requestNumber){
+            return ResponseEntity.notFound().build();
+        }
+        TimeOffRequestResponse a1=service.update(userMail,requestNumber,timeOffRequest);
+        return ResponseEntity.ok(a1);
+    }
 //    @PutMapping("{userMail}/{requestNumber}")
 //    @Operation(summary="Modify a request")
 //    public ResponseEntity<TimeOffRequestResponse> modifyTimeOffRequest(@PathVariable String userMail, @PathVariable Long requestNumber,@RequestBody TimeOffRequestResponse timeOffRequests) {
