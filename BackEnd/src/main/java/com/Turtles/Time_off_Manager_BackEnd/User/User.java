@@ -1,5 +1,6 @@
 package com.Turtles.Time_off_Manager_BackEnd.User;
 
+import com.Turtles.Time_off_Manager_BackEnd.Role.Role;
 import com.Turtles.Time_off_Manager_BackEnd.TimeOffRequest.TimeOffRequest;
 import com.Turtles.Time_off_Manager_BackEnd.Projects.Projects;
 
@@ -48,28 +49,33 @@ public class User {
     public void setPassword(String a) {
         password=a;
     }
-    @OneToMany(mappedBy="user",cascade=CascadeType.ALL,orphanRemoval=true)
-//    @JoinColumn(name="requests_id")
-    private List<TimeOffRequest> requests;
-    public List<TimeOffRequest> getTimeOffRequests() {return requests;}
-    public void setTimeOffRequests(List<TimeOffRequest> a) {
-        requests=a;
-    }
-    public void addTimeOffRequest(TimeOffRequest a) {
-        requests.add(a);
-    }
-    public void removeTimeOffRequest(TimeOffRequest a) {
-        requests.remove(a);
-    }
-    @ManyToOne(cascade=CascadeType.ALL)
-    @JoinColumn(name="projectid",nullable = true)
-    private Projects project;
-    public Projects getProject() {
-        return project;
-    }
-    public void setProject(Projects a) {
-        project=a;
-    }
+//    @OneToMany(mappedBy="user",cascade=CascadeType.ALL,orphanRemoval=true)
+//    @JoinColumn(name="requestsid",nullable = true)
+//    private List<TimeOffRequest> requests;
+//    public List<TimeOffRequest> getTimeOffRequests() {return requests;}
+//    public void setTimeOffRequests(List<TimeOffRequest> a) {
+//        requests=a;
+//    }
+//    public void addTimeOffRequest(TimeOffRequest a) {
+//        requests.add(a);
+//    }
+//    public void removeTimeOffRequest(TimeOffRequest a) {
+//        requests.remove(a);
+//    }
+//    @ManyToOne(cascade=CascadeType.ALL)
+//    @JoinColumn(name="projectid",nullable = true)
+//    private Projects project;
+//    public Projects getProject() {
+//        return project;
+//    }
+//    public void setProject(Projects a) {
+//        project=a;
+//    }
+    @Enumerated(EnumType.STRING)
+    @Column(name="role",nullable = false)
+    private Role role;
+    public Role getRole(){return role;}
+    public void setRole(Role role){this.role=role;}
 //    @Column(name="role")
 //    private int roleId;
 //    public int getRoleId() {

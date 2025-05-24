@@ -6,9 +6,10 @@ public class TimeOffRequestResponse {
     private String description;
     private LocalDate start;
     private LocalDate end;
-    private UserResponse user;
+    private String userEmail;
     private int type;
     private int status;
+    private int requestUserNumber;
 
     public LocalDate getStart() {
         return start;
@@ -26,12 +27,15 @@ public class TimeOffRequestResponse {
         return description;
     }
     public void setDescription(String description) {this.description=description;}
-    public void setUser(UserResponse user) {this.user = user;}
-    public UserResponse getUser() {return user;}
+    public void setUser(String user) {this.userEmail = user;}
+    public String getUser() {return userEmail;}
     public int getType() {return type;}
     public void setType(int type) {this.type = type;}
     public int getStatus() {return status;}
     public void setStatus(int status) {this.status=status;}
+    public int getRequestUserNumber() {return requestUserNumber;}
+    public void setRequestUserNumber(int requestUserNumber) {this.requestUserNumber=requestUserNumber;}
+
     @Override
     public boolean equals(Object o){
         if (o == null || this.getClass() != o.getClass()){

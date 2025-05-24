@@ -1,6 +1,8 @@
 package com.Turtles.Time_off_Manager_BackEnd.Projects;
+import com.Turtles.Time_off_Manager_BackEnd.User.User;
 import com.Turtles.Time_off_Manager_BackEnd.User.UserService;
 import com.Turtles.Time_off_Manager_BackEnd.web.transfer.CreateProjectRequest;
+import com.Turtles.Time_off_Manager_BackEnd.web.transfer.CreateUserRequest;
 import com.Turtles.Time_off_Manager_BackEnd.web.transfer.ProjectResponse;
 import com.Turtles.Time_off_Manager_BackEnd.web.transfer.UserResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -37,13 +40,13 @@ public class ProjectsController {
     @GetMapping("/{managerEmail}")
     @Operation(summary="Get project by Manager email")
     @ApiResponse(responseCode="200",description="succes")
-    public ResponseEntity<ProjectResponse> getProjectByManagerEmail(@PathVariable String manageremail){
+    public ResponseEntity<ProjectResponse> getProjectByManagerEmail(@PathVariable String managerEmail){
 //        Projects a=projectsService.findId(id);
-        UserResponse a=userService.findByEmail(manageremail);
+        User a=userService.findRawByEmail(managerEmail);
         if (a==null) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(a.getProject());
+        return ResponseEntity.ok(projectsService.findByManager(managerEmail));
     }
 //    @PutMapping("/{id}")
 //    @Operation(summary="Modify Project")
@@ -69,5 +72,19 @@ public class ProjectsController {
 //        return ResponseEntity.ok(a);
         ProjectResponse a=projectsService.delete(Name);
         return ResponseEntity.ok(a);
+    }
+    @PutMapping("/{Name}")
+    @Operation(summary="Modify Project")
+    @ApiResponse(responseCode = "200", description = "succes")
+    public ResponseEntity<ProjectResponse> modifyProject(@PathVariable String Name, CreateProjectRequest project){
+        ProjectResponse a=projectsService.modify(Name,project);
+        return ResponseEntity.ok(a);
+    }
+    @PutMapping("/{Name}/{employeeEmail}")
+    @Operation(summary="Add employee to project")
+    @ApiResponse(responseCode = "200", description="succes")
+    public void addEmployee(@PathVariable String Name, @PathVariable String employeeEmail){
+        projectsService.addEmployee(Name,employeeEmail);
+        return;
     }
 }

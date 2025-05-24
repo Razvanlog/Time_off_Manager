@@ -1,36 +1,42 @@
 package com.Turtles.Time_off_Manager_BackEnd.web.transfer;
 
 import com.Turtles.Time_off_Manager_BackEnd.User.User;
+import com.Turtles.Time_off_Manager_BackEnd.User.UserRepository;
 import jakarta.validation.constraints.NotNull;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import java.util.List;
+import java.util.Optional;
+
 public class CreateProjectRequest {
     @NotNull
     private String name;
-    private CreateUserRequest manager;
-    private List<CreateUserRequest> employees;
+    private String managerEmail;
+    private List<String> employeesEmail;
     public void setName(String a){
         this.name = a;
     }
     public String getName(){
         return this.name;
     }
-    public void setManager(CreateUserRequest a){
-        this.manager = a;
+    public void setManager(String email){
+        this.managerEmail = email;
     }
-    public CreateUserRequest getManager(){
-        return this.manager;
+    public String getManager(){
+        return this.managerEmail;
     }
-    public void setEmployees(List<CreateUserRequest> a){
-        this.employees = a;
+    public void setEmployees(List<String> a){
+        this.employeesEmail = a;
     }
-    public void addEmployee(CreateUserRequest a){
-        this.employees.add(a);
+    public void addEmployee(String email){
+        this.employeesEmail.add(email);
     }
-    public void removeEmployee(CreateUserRequest a){
-        this.employees.remove(a);
+    public void removeEmployee(String a){
+        this.employeesEmail.remove(a);
     }
-    public List<CreateUserRequest> getEmployees(){
-        return this.employees;
+    public List<String> getEmployees(){
+        return this.employeesEmail;
     }
     @Override
     public boolean equals(Object o){

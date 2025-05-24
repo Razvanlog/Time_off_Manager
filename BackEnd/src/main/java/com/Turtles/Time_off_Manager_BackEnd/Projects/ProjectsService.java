@@ -1,21 +1,21 @@
 package com.Turtles.Time_off_Manager_BackEnd.Projects;
-import com.Turtles.Time_off_Manager_BackEnd.User.UserMapper;
-import com.Turtles.Time_off_Manager_BackEnd.User.UserResponseMapper;
-import com.Turtles.Time_off_Manager_BackEnd.User.UserService;
+import com.Turtles.Time_off_Manager_BackEnd.User.*;
 import com.Turtles.Time_off_Manager_BackEnd.web.transfer.CreateProjectRequest;
 import com.Turtles.Time_off_Manager_BackEnd.web.transfer.CreateUserRequest;
 import com.Turtles.Time_off_Manager_BackEnd.web.transfer.ProjectResponse;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
-import com.Turtles.Time_off_Manager_BackEnd.User.User;
 import com.Turtles.Time_off_Manager_BackEnd.web.transfer.UserResponse;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 @Service
 public class ProjectsService {
     @Autowired
     private ProjectsRepository repo;
+    @Autowired
+    private UserRepository userRepo;
     @Autowired
     private UserService userService;
     private final ProjectMapper mapper = new ProjectMapper();
@@ -28,7 +28,24 @@ public class ProjectsService {
     private ProjectResponseMapper projectResponseMapper;
 
     public ProjectResponse save(CreateProjectRequest project) {
+        //
+        if (project.getEmployees().contains(project.getManager())){
+            return null;
+        }
         Projects a=mapper.map(project);
+        Optional<User> manager=userRepo.findByEmail(project.getManager());
+        if (manager.isEmpty()){
+            return null;
+        }
+        a.setManager(manager.get());
+        a.setEmployees(new ArrayList<User>());
+        for (String it: project.getEmployees()){
+            Optional<User> employee=userRepo.findByEmail(it);
+            if (employee.isEmpty()){
+                continue;
+            }
+            a.addEmployee(employee.get());
+        }
         repo.save(a);
         ProjectResponse r=responseMapper.map(a);
         return r;
@@ -50,14 +67,25 @@ public class ProjectsService {
         ProjectResponse r=responseMapper.map(p.get());
         return r;
     }
-    public ProjectResponse findByManager(CreateUserRequest user){
-        User a=userMapper.map(user);
-        Optional<Projects> b=repo.findByName(a.getName());
-        if (b.isEmpty()){
+    public ProjectResponse findByManager(String managerEmail){
+        Optional<User> manager=userRepo.findByEmail(managerEmail);
+        if (manager.isEmpty()){
             return null;
         }
-        return responseMapper.map(b.get());
+        Optional<Projects> a=repo.findByManager(manager.get());
+        if (a.isEmpty()){
+            return null;
+        }
+        ProjectResponse r=responseMapper.map(a.get());
+        return r;
     }
+//    public ProjectResponse findByManager(User user){
+//        Optional<Projects> b=repo.findByName(user.getName());
+//        if (b.isEmpty()){
+//            return null;
+//        }
+//        return responseMapper.map(b.get());
+//    }
     public List<ProjectResponse> findAll(){
         return repo.findAll().stream().map(responseMapper::map).toList();
     }
@@ -66,6 +94,43 @@ public class ProjectsService {
         if (a.isEmpty()){
             return null;
         }
+        repo.delete(a.get());
         return projectResponseMapper.map(a.get());
+    }
+    public ProjectResponse modify(String projectName, CreateProjectRequest project) {
+        Optional<Projects> a=repo.findByName(projectName);
+        if (a.isEmpty()){
+            return null;
+        }
+        Projects b=a.get();
+        b.setName(project.getName());
+        Optional<User> manager=userRepo.findByEmail(project.getManager());
+        if (manager.isEmpty()){
+            return null;
+        }
+        b.setManager(manager.get());
+        b.setEmployees(new ArrayList<>());
+        for (String it: project.getEmployees()){
+            Optional<User> employee=userRepo.findByEmail(it);
+            if (employee.isEmpty()){
+                continue;
+            }
+            b.addEmployee(employee.get());
+        }
+        repo.save(b);
+        return responseMapper.map(b);
+    }
+    public void addEmployee(String projectName, String employeeEmail) {
+        Optional<Projects> a=repo.findByName(projectName);
+        if (a.isEmpty()){
+            return;
+        }
+        Optional<User> employee=userRepo.findByEmail(employeeEmail);
+        if (employee.isEmpty()){
+            return;
+        }
+        Projects b=a.get();
+        b.addEmployee(employee.get());
+        repo.save(b);
     }
 }

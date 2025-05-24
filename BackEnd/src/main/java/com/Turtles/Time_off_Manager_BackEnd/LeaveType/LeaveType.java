@@ -28,6 +28,7 @@ public enum LeaveType {
     public int getMaxBalance() {
         return maxBalance;
     }
+
     public static LeaveType fromString(String text) {
         for (LeaveType b : LeaveType.values()) {
             if (b.name().equalsIgnoreCase(text) || b.getLabel().equalsIgnoreCase(text)) {

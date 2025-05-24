@@ -17,6 +17,7 @@ public class TimeOffRequestMapper {
         timeOffRequest.setStartDate(createTimeOffRequest.getStart());
         timeOffRequest.setEndDate(createTimeOffRequest.getEnd());
         timeOffRequest.setDescription(createTimeOffRequest.getDescription());
+        timeOffRequest.setRequestUserNumber(createTimeOffRequest.getRequestedDays().longValue());
 
         if (createTimeOffRequest.getLeaveType() != null && !createTimeOffRequest.getLeaveType().trim().isEmpty()) {
             try {

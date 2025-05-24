@@ -34,13 +34,14 @@ public class TimeOffRequest {
     private LocalDate endDate;
 
     @ManyToOne
-    @JoinColumn(name="user_id",nullable=false)
+    @JoinColumn(name="user_email",nullable=false)
     private User user;
 
     @Column(name="requested_days", nullable = false)
     private Integer requestedDays;
 
-
+    @Column(name="requestUserNumber",nullable = false)
+    private Long requestUserNumber;
     public Long getId() {
         return id;
     }
@@ -97,7 +98,8 @@ public class TimeOffRequest {
         this.requestedDays = requestedDays;
     }
 
-
+    public Long getRequestUserNumber() {return requestUserNumber;}
+    public void setRequestUserNumber(Long requestUserNumber) {this.requestUserNumber = requestUserNumber;}
 
 
 }

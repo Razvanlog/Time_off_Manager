@@ -1,5 +1,7 @@
 package com.Turtles.Time_off_Manager_BackEnd.User;
 
+import com.Turtles.Time_off_Manager_BackEnd.web.transfer.ProjectResponse;
+import com.Turtles.Time_off_Manager_BackEnd.web.transfer.TimeOffRequestResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
@@ -51,16 +53,14 @@ public class UserController {
         }
         return ResponseEntity.ok(userResponseMapper.map(user));
     }
-
-
-    @CrossOrigin(origins = "http://localhost:4200")
-    @PostMapping
-    @Operation(summary = "Create User")
-    @ApiResponse(responseCode = "200", description = "success")
-    public ResponseEntity<UserResponse> saveUser(@RequestBody CreateUserRequest createUserRequest) {
-        User a = service.save(createUserRequest);
-        return ResponseEntity.ok(userResponseMapper.map(a));
-    }
+//    @CrossOrigin(origins = "http://localhost:4200")
+//    @PostMapping
+//    @Operation(summary = "Create User")
+//    @ApiResponse(responseCode = "200", description = "success")
+//    public ResponseEntity<UserResponse> saveUser(@RequestBody CreateUserRequest createUserRequest) {
+//        User a = service.save(createUserRequest);
+//        return ResponseEntity.ok(userResponseMapper.map(a));
+//    }
 
     @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping
@@ -92,6 +92,31 @@ public class UserController {
         return ResponseEntity.ok(user);
     }
 
+    @CrossOrigin(origins="http://localhost:4200")
+    @PutMapping("/{email}")
+    @Operation(summary="Modify user")
+    @ApiResponse(responseCode="200",description = "succes")
+    public ResponseEntity<UserResponse> modifyUser(@PathVariable String email, @RequestBody CreateUserRequest createUserRequest) {
+        UserResponse user = service.modify(email,createUserRequest);
+        return ResponseEntity.ok(user);
+    }
+
+
+//    @CrossOrigin(origins="http://localhost:4200")
+//    @GetMapping("/{email}/requests")
+//    @Operation(summary="Get all requests of user")
+//    @ApiResponse(responseCode="200", description="succes")
+//    public ResponseEntity<List<TimeOffRequestResponse>> getAllRequests(@PathVariable String email) {
+//        return ResponseEntity.ok(service.getRequests(email));
+//    }
+
+//    @CrossOrigin(origins="http://localhost:4200")
+//    @GetMapping("/{email}/project")
+//    @Operation(summary="Get project of user")
+//    @ApiResponse(responseCode="200", description="succes")
+//    public ResponseEntity<ProjectResponse> getProject(@PathVariable String email) {
+//        return ResponseEntity.ok(service.getProjects(email));
+//    }
     /*
     // unfinished !!!!!!!!!!!!
     @CrossOrigin(origins = "http://localhost:4200")

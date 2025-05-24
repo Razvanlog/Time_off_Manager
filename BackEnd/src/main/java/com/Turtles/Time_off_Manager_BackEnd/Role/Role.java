@@ -1,26 +1,22 @@
 package com.Turtles.Time_off_Manager_BackEnd.Role;
-import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-//import lombok.Getter;
-@Entity
-@NoArgsConstructor
-@AllArgsConstructor
-public class Role {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int roleID;
-    public int getRoleID() {
-        return roleID;
+import java.util.Map;
+public enum Role {
+    ADMIN("ADMIN"),
+    MANAGER("MANAGER"),
+    EMPLOYEE("EMPLOYEE");
+    private final String label;
+//    private final int rightLevel;
+    Role(String label) {
+        this.label = label;
+//        this.rightLevel = rightLevel;
     }
-    public void setRoleID(int roleID) {
-        this.roleID = roleID;
-    }
-    private String name;
-    public String getName() {
-        return name;
-    }
-    public void setName(String name) {
-        this.name = name;
+    public String getLabel() {return label;}
+//    public int getRightLevel() {return rightLevel;}
+    public boolean isAdmin(){return this == ADMIN;}
+    public boolean isManager(){return this == MANAGER;}
+    public boolean isEmployee(){return this == EMPLOYEE;}
+    @Override
+    public String toString() {
+        return label;
     }
 }

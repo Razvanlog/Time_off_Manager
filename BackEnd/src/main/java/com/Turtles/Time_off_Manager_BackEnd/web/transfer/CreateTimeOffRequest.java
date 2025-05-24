@@ -11,7 +11,7 @@ import java.util.Objects;
 public class CreateTimeOffRequest {
 
     @NotNull
-    private Long userId;
+    private String userEmail;
 
     @NotNull
     @FutureOrPresent
@@ -30,12 +30,12 @@ public class CreateTimeOffRequest {
     @Positive
     private Integer requestedDays;
 
-    public Long getUserId() {
-        return userId;
+    public String getUserEmail() {
+        return userEmail;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setUserEmail(String userEmail) {
+        this.userEmail = userEmail;
     }
 
     public LocalDate getStart() {
@@ -83,7 +83,7 @@ public class CreateTimeOffRequest {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         CreateTimeOffRequest that = (CreateTimeOffRequest) o;
-        return Objects.equals(userId, that.userId) &&
+        return Objects.equals(userEmail, that.userEmail) &&
                 Objects.equals(start, that.start) &&
                 Objects.equals(end, that.end) &&
                 Objects.equals(leaveType, that.leaveType) &&
@@ -91,8 +91,9 @@ public class CreateTimeOffRequest {
                 Objects.equals(requestedDays, that.requestedDays);
     }
 
+
     @Override
     public int hashCode() {
-        return Objects.hash(userId, start, end, leaveType, description, requestedDays);
+        return Objects.hash(userEmail, start, end, leaveType, description, requestedDays);
     }
 }

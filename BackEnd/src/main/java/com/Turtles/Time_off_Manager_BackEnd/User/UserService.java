@@ -1,5 +1,8 @@
 package com.Turtles.Time_off_Manager_BackEnd.User;
+import com.Turtles.Time_off_Manager_BackEnd.Projects.ProjectsService;
 import com.Turtles.Time_off_Manager_BackEnd.web.transfer.CreateUserRequest;
+import com.Turtles.Time_off_Manager_BackEnd.web.transfer.ProjectResponse;
+import com.Turtles.Time_off_Manager_BackEnd.web.transfer.TimeOffRequestResponse;
 import com.Turtles.Time_off_Manager_BackEnd.web.transfer.UserResponse;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
@@ -13,7 +16,8 @@ public class UserService{
 
     @Autowired
     private UserRepository repo;
-
+//    @Autowired
+//    private ProjectsService projectsService;
     private final UserMapper userMapper=new UserMapper();
     private final UserResponseMapper userResponseMapper=new UserResponseMapper();
 
@@ -50,6 +54,20 @@ public class UserService{
         }
         return userResponseMapper.map(user.get());
     }
+    public UserResponse modify(String email, CreateUserRequest createUserRequest){
+        Optional<User> user = repo.findByEmail(email);
+        if (user.isEmpty()){
+            return null;
+        }
+        else{
+            User user1=user.get();
+            user1.setEmail(createUserRequest.getEmail());
+            user1.setPassword(createUserRequest.getPassword());
+            user1.setName(createUserRequest.getName());
+            repo.save(user1);
+            return userResponseMapper.map(user1);
+        }
+    }
     public boolean exists(String email){
         return repo.existsByEmail(email);
     }
@@ -71,4 +89,13 @@ public class UserService{
         return repo.findByEmail(email).orElse(null);
     }
 
+//    public List<TimeOffRequestResponse> getRequests(String email){
+//        UserResponse a=findByEmail(email);
+//        return a.getRequests();
+//    }
+
+//    public ProjectResponse getProjects(String email){
+//        User a=findRawByEmail(email);
+//        return projectsService.findByManager(a);
+//    }
 }

@@ -9,6 +9,7 @@ public class UserResponseMapper {
         userResponse.setName(user.getName());
         userResponse.setEmail(user.getEmail());
         userResponse.setPassword(user.getPassword());
+        userResponse.setRole(user.getRole());
         return userResponse;
     }
 }

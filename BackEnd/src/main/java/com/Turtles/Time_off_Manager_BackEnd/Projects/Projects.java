@@ -16,10 +16,10 @@ public class Projects {
     private Long id;
     @Column(name="name",unique = true, nullable = false)
     private String name;
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name="managerid",nullable = false)
+    @OneToOne(cascade=CascadeType.PERSIST)
+    @JoinColumn(name="managerid",nullable = false,unique=false)
     private User manager;
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade=CascadeType.PERSIST)
     @JoinColumn(name="employees")
     private List<User> employees;
 
