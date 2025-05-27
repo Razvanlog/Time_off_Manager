@@ -7,6 +7,7 @@ import { CommonModule } from '@angular/common';
   // standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './submit-request.component.html',
+  standalone: true,
   styleUrls: ['./submit-request.component.scss']
 })
 export class SubmitRequestComponent {

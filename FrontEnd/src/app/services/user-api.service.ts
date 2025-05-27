@@ -6,17 +6,22 @@ export interface CreateUserRequest {
   name: string;
   email: string;
   password: string;
+  role: string;
+}
+
+export interface LoginRequest {
+  email: string;
+  password: string;
 }
 
 export interface UserResponse {
   userId: number;
   name: string;
   email: string;
+  role: string;
 }
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable({ providedIn: 'root' })
 export class UserApiService {
   private baseUrl = 'http://localhost:8080/api/users';
 
@@ -26,7 +31,10 @@ export class UserApiService {
     return this.http.post<UserResponse>(`${this.baseUrl}/signup`, data);
   }
 
-  login(data: CreateUserRequest): Observable<UserResponse> {
+  login(data: LoginRequest): Observable<UserResponse> {
     return this.http.post<UserResponse>(`${this.baseUrl}/login`, data);
+  }
+  getUsers(): Observable<UserResponse[]> {
+    return this.http.get<UserResponse[]>(`${this.baseUrl}`);
   }
 }
