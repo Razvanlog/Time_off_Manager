@@ -12,7 +12,9 @@
   <button mat-button *ngIf="role === 'MANAGER'" routerLink="/review-requests">Review Requests</button>
   <button mat-button *ngIf="role === 'ADMIN'" routerLink="/admin-dashboard">Admin Dashboard</button>
 
-  <span *ngIf="role" class="user-role-display">Role: {{ role }}</span>
+  <div class="toolbar-actions">
+    <span *ngIf="role" class="user-role-display">Role: {{ role }}</span>
+    <button mat-button (click)="logout()">Logout</button>
+  </div>
 
-  <button mat-button (click)="logout()">Logout</button>
 </mat-toolbar>
