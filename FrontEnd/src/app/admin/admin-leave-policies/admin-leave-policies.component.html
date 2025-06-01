@@ -1,0 +1,15 @@
+<h2>Leave Policies</h2>
+<table>
+  <thead>
+  <tr>
+    <th>Type</th>
+    <th>Limit (days)</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let policy of policies">
+    <td>{{ policy.type }}</td>
+    <td><input type="number" [(ngModel)]="policy.limit" /></td>
+  </tr>
+  </tbody>
+</table>

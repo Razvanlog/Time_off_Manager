@@ -20,7 +20,7 @@ import { Subscription } from 'rxjs';
   ]
 })
 export class HeaderComponent implements OnInit, OnDestroy {
-  isLoggedIn = false;
+  isLoggedIn = true;
   role: string | null = null;
 
   private isLoggedInSubscription: Subscription | undefined;
