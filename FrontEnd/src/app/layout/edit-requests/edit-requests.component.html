@@ -1,43 +1,84 @@
-<h2>Edit Time-Off Requests</h2>
+<h2>My Time-Off Requests</h2>
 
-<table>
-  <thead>
-  <tr>
-    <th>Start</th>
-    <th>End</th>
-    <th>Type</th>
-    <th>Notes</th>
-    <th>Actions</th>
-  </tr>
-  </thead>
-  <tbody>
-  <tr *ngFor="let req of requests">
-    <ng-container *ngIf="editingId === req.id && editedRequest; else viewMode">
-      <td><input [(ngModel)]="editedRequest.startDate" type="date" /></td>
-      <td><input [(ngModel)]="editedRequest.endDate" type="date" /></td>
-      <td>
-        <select [(ngModel)]="editedRequest.leaveType">
-          <option value="vacation">Vacation</option>
-          <option value="sick">Sick</option>
-          <option value="personal">Personal</option>
-        </select>
-      </td>
-      <td><input [(ngModel)]="editedRequest.notes" /></td>
-      <td>
-        <button (click)="saveChanges()">Save</button>
-        <button (click)="cancelEditing()">Cancel</button>
-      </td>
-    </ng-container>
+<div *ngIf="isLoading" class="loading-indicator">
+  <p>Loading your requests...</p>
+</div>
 
-    <ng-template #viewMode>
-      <td>{{ req.startDate }}</td>
-      <td>{{ req.endDate }}</td>
-      <td>{{ req.leaveType }}</td>
-      <td>{{ req.notes }}</td>
-      <td>
-        <button (click)="startEditing(req)">Edit</button>
-      </td>
-    </ng-template>
-  </tr>
-  </tbody>
-</table>
+<div *ngIf="errorMessage && !isLoading" class="error-message-container">
+  <p>{{ errorMessage }}</p>
+</div>
+
+<div *ngIf="!isLoading && requests.length > 0">
+  <table>
+    <thead>
+    <tr>
+      <th>Start Date</th>
+      <th>End Date</th>
+      <th>Leave Type</th>
+      <th>Notes/Description</th>
+      <th>Requested Days</th>
+      <th>Status</th>
+      <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let req of requests; let i = index">
+      <ng-container *ngIf="editingId === req.requestUserNumber && editedRequest; else viewMode">
+        <!-- EDIT MODE ROW -->
+        <td>
+          <input [(ngModel)]="editedRequest.startDate" name="editStartDate_{{i}}" type="date" [min]="minDate" required />
+        </td>
+        <td>
+          <input [(ngModel)]="editedRequest.endDate" name="editEndDate_{{i}}" type="date" [min]="editedRequest.startDate || minDate" required />
+        </td>
+        <td>
+          <select [(ngModel)]="editedRequest.leaveType" name="editLeaveType_{{i}}" required>
+            <option value="">-- Select --</option>
+            <option value="VACATION">Vacation</option>
+            <option value="SICK">Sick</option>
+            <option value="PERSONAL">Personal</option>
+          </select>
+        </td>
+        <td>
+          <input [(ngModel)]="editedRequest.description" name="editDescription_{{i}}" type="text" />
+        </td>
+        <td>
+          </td>
+        <td>
+          <span *ngIf="editedRequest.status === 0">Pending</span>
+          <span *ngIf="editedRequest.status === 1">Approved</span>
+          <span *ngIf="editedRequest.status === 2">Rejected</span>
+          <span *ngIf="editedRequest.status !== 0 && editedRequest.status !== 1 && editedRequest.status !== 2">Unknown ({{ editedRequest.status }})</span>
+        </td>
+        <td>
+          <button (click)="saveChanges()" class="btn-primary">Save</button>
+          <button (click)="cancelEditing()" class="btn-secondary">Cancel</button>
+        </td>
+      </ng-container>
+
+      <ng-template #viewMode>
+        <!-- VIEW MODE ROW -->
+        <td>{{ req.start | date:'yyyy-MM-dd' }}</td>
+        <td>{{ req.end | date:'yyyy-MM-dd' }}</td>
+        <td>{{ mapLeaveTypeNumberToString(req.type) }}</td>
+        <td>{{ req.description }}</td>
+        <td>{{ calculateRequestedDays(req.start, req.end) }}</td>
+        <td>
+          <span *ngIf="req.status === 0">Pending</span>
+          <span *ngIf="req.status === 1">Approved</span>
+          <span *ngIf="req.status === 2">Rejected</span>
+          <span *ngIf="req.status !== 0 && req.status !== 1 && req.status !== 2">Unknown ({{ req.status }})</span>
+        </td>
+        <td>
+          <button (click)="startEditing(req)" [disabled]="req.status !== 0" class="btn-primary">Edit</button>
+          <button (click)="deleteRequest(req)" [disabled]="req.status !== 0" class="btn-danger">Delete</button>
+        </td>
+      </ng-template>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+<p *ngIf="!isLoading && requests.length === 0 && !errorMessage" class="no-requests-message">
+  You have no time-off requests submitted yet.
+</p>

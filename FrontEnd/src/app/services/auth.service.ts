@@ -1,44 +1,82 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { UserResponse } from '../services/user-api.service';
+
+interface StoredUser {
+  role: string;
+  email: string;
+  name?: string;
+  userId?: number;
+}
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private _isLoggedIn$ = new BehaviorSubject<boolean>(false);
-  private _role$ = new BehaviorSubject<string>('');
+  private _role$ = new BehaviorSubject<string | null>(null);
+  private _currentUser$ = new BehaviorSubject<StoredUser | null>(null);
 
-  readonly isLoggedIn$ = this._isLoggedIn$.asObservable();
-  readonly role$ = this._role$.asObservable();
+  readonly isLoggedIn$: Observable<boolean> = this._isLoggedIn$.asObservable();
+  readonly role$: Observable<string | null> = this._role$.asObservable();
+  readonly currentUser$: Observable<StoredUser | null> = this._currentUser$.asObservable();
+
+  private readonly USER_STORAGE_KEY = 'timeOffAppUser';
 
   constructor() {
-    if (typeof window !== 'undefined') {
-      const user = localStorage.getItem('user');
-      try {
-        const parsed = user ? JSON.parse(user) : null;
-        if (parsed?.role) {
-          this._isLoggedIn$.next(true);
-          this._role$.next(parsed.role);
+    if (typeof window !== 'undefined' && localStorage) {
+      const storedUserString = localStorage.getItem(this.USER_STORAGE_KEY);
+      if (storedUserString) {
+        try {
+          const parsedUser = JSON.parse(storedUserString) as StoredUser;
+          if (parsedUser && parsedUser.role && parsedUser.email) {
+            this._isLoggedIn$.next(true);
+            this._role$.next(parsedUser.role);
+            this._currentUser$.next(parsedUser);
+          } else {
+            localStorage.removeItem(this.USER_STORAGE_KEY);
+          }
+        } catch {
+          localStorage.removeItem(this.USER_STORAGE_KEY);
         }
-      } catch (e) {
-        localStorage.removeItem('user');
       }
     }
   }
 
+  login(userResponse: UserResponse): void {
+    if (!userResponse || !userResponse.email || !userResponse.role) {
+      return;
+    }
 
-  login(role: string): void {
+    const userToStore: StoredUser = {
+      role: userResponse.role,
+      email: userResponse.email,
+      name: userResponse.name,
+      userId: userResponse.userId
+    };
+
     this._isLoggedIn$.next(true);
-    this._role$.next(role);
+    this._role$.next(userToStore.role);
+    this._currentUser$.next(userToStore);
 
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('user', JSON.stringify({ role }));
+    if (typeof window !== 'undefined' && localStorage) {
+      localStorage.setItem(this.USER_STORAGE_KEY, JSON.stringify(userToStore));
     }
   }
 
   logout(): void {
-    if (typeof window !== 'undefined') {
-      localStorage.removeItem('user');
+    if (typeof window !== 'undefined' && localStorage) {
+      localStorage.removeItem(this.USER_STORAGE_KEY);
     }
     this._isLoggedIn$.next(false);
-    this._role$.next('');
+    this._role$.next(null);
+    this._currentUser$.next(null);
+  }
+
+  public getCurrentUserEmail(): string | null {
+    const currentUser = this._currentUser$.value;
+    return currentUser ? currentUser.email : null;
+  }
+
+  public getCurrentUserValue(): StoredUser | null {
+    return this._currentUser$.value;
   }
 }

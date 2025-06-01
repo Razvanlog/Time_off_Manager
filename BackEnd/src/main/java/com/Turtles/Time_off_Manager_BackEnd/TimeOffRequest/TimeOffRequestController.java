@@ -1,7 +1,7 @@
 package com.Turtles.Time_off_Manager_BackEnd.TimeOffRequest;
+
 import com.Turtles.Time_off_Manager_BackEnd.User.User;
 import com.Turtles.Time_off_Manager_BackEnd.User.UserService;
-import com.Turtles.Time_off_Manager_BackEnd.web.transfer.CreateUserRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,13 +15,16 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 
 import org.springframework.http.ResponseEntity;
+
 @RestController
 @RequestMapping("/TimeOffRequestsController")
+@CrossOrigin(origins = "http://localhost:4200")
 public class TimeOffRequestController {
     @Autowired
     private TimeOffRequestsService service;
     @Autowired
     private UserService userService;
+
     @PostMapping
     @Operation(summary="Create TimeOffRequests")
     @ApiResponse(responseCode="200",description="succes")
@@ -29,7 +32,8 @@ public class TimeOffRequestController {
         TimeOffRequestResponse a=service.save(timeOffRequests);
         return ResponseEntity.ok(a);
     }
-    @GetMapping("{email}")
+
+    @GetMapping("/{email}")
     @Operation(summary="get TimeOffRequests with Email")
     public ResponseEntity<List<TimeOffRequestResponse>> getTimeOffRequests(@PathVariable("email") String email) {
         User user=userService.findRawByEmail(email);
@@ -39,7 +43,8 @@ public class TimeOffRequestController {
         List<TimeOffRequestResponse> a=service.findByUser(user.getEmail());
         return ResponseEntity.ok(a);
     }
-    @GetMapping("{userMail}/{requestNumber}")
+
+    @GetMapping("/{userMail}/{requestNumber}")
     @Operation(summary="get TimeOffRequest with email and nr")
     @ApiResponse(responseCode = "200", description = "succes")
     public ResponseEntity<TimeOffRequestResponse> getTimeOffRequest(@PathVariable("userMail") String userMail, @PathVariable("requestNumber") int requestNumber) {
@@ -52,9 +57,13 @@ public class TimeOffRequestController {
             return ResponseEntity.notFound().build();
         }
         TimeOffRequestResponse a1=service.findByUserAndNr(userMail,requestNumber);
+        if (a1 == null) {
+            return ResponseEntity.notFound().build();
+        }
         return ResponseEntity.ok(a1);
     }
-    @DeleteMapping("{userMail}/{requestNumber}")
+
+    @DeleteMapping("/{userMail}/{requestNumber}")
     @Operation(summary="delete TimeOffRequest with email and nr")
     @ApiResponse(responseCode ="200",description="succes")
     public ResponseEntity<TimeOffRequestResponse> deleteTimeOffRequest(@PathVariable("userMail") String userMail, @PathVariable("requestNumber") int requestNumber) {
@@ -67,12 +76,19 @@ public class TimeOffRequestController {
             return ResponseEntity.notFound().build();
         }
         TimeOffRequestResponse a1=service.delete(userMail,requestNumber);
+        if (a1 == null) {
+            return ResponseEntity.notFound().build();
+        }
         return ResponseEntity.ok(a1);
     }
-    @PutMapping("{userMail}/{requestNumber}")
-    @Operation(summary="delete TimeOffRequest with email and nr")
+
+    @PutMapping("/{userMail}/{requestNumber}")
+    @Operation(summary="update TimeOffRequest with email and nr")
     @ApiResponse(responseCode ="200",description="succes")
-    public ResponseEntity<TimeOffRequestResponse> modifyTimeOffRequest(@PathVariable("userMail") String userMail, @PathVariable("requestNumber") int requestNumber,CreateTimeOffRequest timeOffRequest) {
+    public ResponseEntity<TimeOffRequestResponse> modifyTimeOffRequest(
+            @PathVariable("userMail") String userMail,
+            @PathVariable("requestNumber") int requestNumber,
+            @RequestBody CreateTimeOffRequest timeOffRequest) {
         User user=userService.findRawByEmail(userMail);
         if (user==null){
             return ResponseEntity.notFound().build();
@@ -82,11 +98,14 @@ public class TimeOffRequestController {
             return ResponseEntity.notFound().build();
         }
         TimeOffRequestResponse a1=service.update(userMail,requestNumber,timeOffRequest);
+        if (a1 == null) {
+            return ResponseEntity.notFound().build();
+        }
         return ResponseEntity.ok(a1);
     }
+}
 //    @PutMapping("{userMail}/{requestNumber}")
 //    @Operation(summary="Modify a request")
 //    public ResponseEntity<TimeOffRequestResponse> modifyTimeOffRequest(@PathVariable String userMail, @PathVariable Long requestNumber,@RequestBody TimeOffRequestResponse timeOffRequests) {
 //
 //    }
-}

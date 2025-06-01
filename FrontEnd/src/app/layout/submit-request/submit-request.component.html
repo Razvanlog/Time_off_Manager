@@ -1,30 +1,55 @@
 <h2>Submit Time-Off Request</h2>
 
 <form [formGroup]="requestForm" (ngSubmit)="onSubmit()">
-  <label>
-    Start Date:
-    <input type="date" formControlName="startDate">
-  </label><br>
+  <div>
+    <label for="startDate">Start Date:</label>
+    <input id="startDate" type="date" formControlName="startDate" [min]="minDate">
+    <div *ngIf="requestForm.get('startDate')?.invalid && (requestForm.get('startDate')?.dirty || requestForm.get('startDate')?.touched)" class="error-message">
+      <div *ngIf="requestForm.get('startDate')?.errors?.['required']">
+        Start date is required.
+      </div>
+      <div *ngIf="requestForm.get('startDate')?.errors?.['dateInPast']">
+        Start date cannot be in the past.
+      </div>
+    </div>
+  </div>
+  <br>
 
-  <label>
-    End Date:
-    <input type="date" formControlName="endDate">
-  </label><br>
+  <div>
+    <label for="endDate">End Date:</label>
+    <input id="endDate" type="date" formControlName="endDate" [min]="requestForm.get('startDate')?.valid ? requestForm.get('startDate')?.value : minDate">
+    <div *ngIf="requestForm.get('endDate')?.invalid && (requestForm.get('endDate')?.dirty || requestForm.get('endDate')?.touched)" class="error-message">
+      <div *ngIf="requestForm.get('endDate')?.errors?.['required']">
+        End date is required.
+      </div>
+      <div *ngIf="requestForm.get('endDate')?.errors?.['endDateBeforeStartDate']">
+        End date cannot be before the start date.
+      </div>
+    </div>
+  </div>
+  <br>
 
-  <label>
-    Leave Type:
-    <select formControlName="leaveType">
+  <div>
+    <label for="leaveType">Leave Type:</label>
+    <select id="leaveType" formControlName="leaveType">
       <option value="">-- Select --</option>
-      <option value="vacation">Vacation</option>
-      <option value="sick">Sick</option>
-      <option value="personal">Personal</option>
+      <option value="VACATION">Vacation</option>
+      <option value="SICK">Sick</option>
+      <option value="PERSONAL">Personal</option>
     </select>
-  </label><br>
+    <div *ngIf="requestForm.get('leaveType')?.invalid && (requestForm.get('leaveType')?.dirty || requestForm.get('leaveType')?.touched)" class="error-message">
+      <div *ngIf="requestForm.get('leaveType')?.errors?.['required']">
+        Leave type is required.
+      </div>
+    </div>
+  </div>
+  <br>
 
-  <label>
-    Notes:
-    <textarea formControlName="notes"></textarea>
-  </label><br>
+  <div>
+    <label for="notes">Notes:</label>
+    <textarea id="notes" formControlName="notes" rows="3"></textarea>
+  </div>
+  <br>
 
   <button type="submit" [disabled]="requestForm.invalid">Submit</button>
 </form>
