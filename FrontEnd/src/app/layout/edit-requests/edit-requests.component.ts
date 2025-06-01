@@ -62,6 +62,7 @@ export class EditRequestsComponent implements OnInit {
 
     this.timeOffRequestApi.getRequestsForUser(email).subscribe({
       next: (data) => {
+        console.log('RESPONSE:', data);
         this.requests = data;
         this.isLoading = false;
         if (this.requests.length === 0) {
@@ -88,15 +89,21 @@ export class EditRequestsComponent implements OnInit {
     return Math.round(differenceInDays) + 1;
   }
 
-  mapLeaveTypeNumberToString(typeValue: number | undefined): string {
-    if (typeValue === undefined || typeValue === null) return 'N/A';
-    switch (typeValue) {
-      case 0: return 'VACATION';
-      case 1: return 'SICK';
-      case 2: return 'PERSONAL';
+  mapLeaveTypeToString(typeValue: any): string {
+    console.log('Mapping leave type:', typeValue);
+    if (typeValue === null || typeValue === undefined) return 'N/A';
+
+    const value = Number(typeValue);
+    switch (value) {
+      case 0: return 'Vacation';
+      case 1: return 'Sick';
+      case 2: return 'Personal';
       default: return `Unknown (${typeValue})`;
     }
   }
+
+
+
 
   startEditing(request: TimeOffRequestResponsePayload): void {
     if (request.requestUserNumber === undefined || request.requestUserNumber === null) {
@@ -117,7 +124,7 @@ export class EditRequestsComponent implements OnInit {
       status: request.status,
       startDate: request.start ? formatDate(new Date(request.start), 'yyyy-MM-dd', 'en-US') : '',
       endDate: request.end ? formatDate(new Date(request.end), 'yyyy-MM-dd', 'en-US') : '',
-      leaveType: this.mapLeaveTypeNumberToString(request.type),
+      leaveType: this.mapLeaveTypeToString(request.type),
       description: request.description,
       requestedDays: this.calculateRequestedDays(request.start, request.end)
     };
@@ -236,4 +243,5 @@ export class EditRequestsComponent implements OnInit {
       }
     });
   }
+
 }

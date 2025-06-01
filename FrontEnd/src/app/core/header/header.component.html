@@ -5,7 +5,8 @@
   <ng-container *ngIf="role === 'EMPLOYEE'">
     <button mat-button routerLink="/home">Home</button>
     <button mat-button routerLink="/submit-request">Submit Request</button>
-    <button mat-button routerLink="/edit-requests">My Requests</button>
+    <button mat-button routerLink="/edit-requests">Edit Requests</button>
+    <button mat-button routerLink="/history">My Requests</button>
   </ng-container>
 
   <button mat-button *ngIf="role === 'MANAGER'" routerLink="/review-requests">Review Requests</button>

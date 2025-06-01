@@ -24,7 +24,6 @@
     <tbody>
     <tr *ngFor="let req of requests; let i = index">
       <ng-container *ngIf="editingId === req.requestUserNumber && editedRequest; else viewMode">
-        <!-- EDIT MODE ROW -->
         <td>
           <input [(ngModel)]="editedRequest.startDate" name="editStartDate_{{i}}" type="date" [min]="minDate" required />
         </td>
@@ -57,10 +56,9 @@
       </ng-container>
 
       <ng-template #viewMode>
-        <!-- VIEW MODE ROW -->
         <td>{{ req.start | date:'yyyy-MM-dd' }}</td>
         <td>{{ req.end | date:'yyyy-MM-dd' }}</td>
-        <td>{{ mapLeaveTypeNumberToString(req.type) }}</td>
+        <td>{{ req.type !== undefined ? mapLeaveTypeToString(req.type) : 'N/A' }}</td>
         <td>{{ req.description }}</td>
         <td>{{ calculateRequestedDays(req.start, req.end) }}</td>
         <td>
