@@ -1,0 +1,11 @@
+.dashboard {
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.dashboard button {
+  margin: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.25rem;
+  cursor: pointer;
+}

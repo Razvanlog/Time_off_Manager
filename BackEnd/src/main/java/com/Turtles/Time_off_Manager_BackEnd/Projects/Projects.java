@@ -1,9 +1,9 @@
 package com.Turtles.Time_off_Manager_BackEnd.Projects;
+
+import com.Turtles.Time_off_Manager_BackEnd.User.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
-
-import com.Turtles.Time_off_Manager_BackEnd.User.User;
 import java.util.List;
 
 @Entity
@@ -12,17 +12,20 @@ import java.util.List;
 public class Projects {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column (name="id", unique = true, nullable = false)
+    @Column(name="id", unique = true, nullable = false)
     private Long id;
-    @Column(name="name",unique = true, nullable = false)
+
+    @Column(name="name", unique = true, nullable = false)
     private String name;
-    @OneToOne(cascade=CascadeType.PERSIST)
-    @JoinColumn(name="managerid",nullable = false,unique=false)
+
+    // THIS IS THE ONLY CHANGE
+    @ManyToOne(cascade=CascadeType.PERSIST)
+    @JoinColumn(name="managerid", nullable = false)
     private User manager;
+
     @OneToMany(cascade=CascadeType.PERSIST)
     @JoinColumn(name="employees")
     private List<User> employees;
-
 
     public void setName(String a){
         this.name = a;
@@ -30,7 +33,6 @@ public class Projects {
     public String getName(){
         return this.name;
     }
-//    @Column(name="manager",nullable = false)
     public void setManager(User a){
         this.manager = a;
     }

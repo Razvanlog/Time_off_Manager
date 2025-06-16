@@ -1,30 +1,28 @@
-import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { AppRoutingModule} from './app.routes';
-import {FormsModule} from '@angular/forms';
-import {UserListComponent} from './user-list/user-list.component';
-import {HeaderComponent} from './core/header/header.component';
-// import {App}
-import { AppComponent } from './app.component';
-import { provideHttpClient } from '@angular/common/http';
+import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
-import {UserService} from './User/user.service';
-import {RouterOutlet} from '@angular/router';
+import { FormsModule } from '@angular/forms';
+
+import { AppRoutingModule } from './app.routes';
+import { AppComponent } from './app.component';
+import { UserListComponent } from './user-list/user-list.component';
+import { HeaderComponent } from './core/header/header.component';
+import { AdminComponent } from './components/admin-dashboard/admin.component';
+import { UserService } from './User/user.service';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    UserListComponent,
-    HeaderComponent,
-  ],
+  declarations: [],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
-    RouterOutlet
+    AppComponent,
+    UserListComponent,
+    HeaderComponent,
+    AdminComponent
   ],
-  providers: [UserService, provideHttpClient()],
-  bootstrap: [AppComponent]
+  providers: [UserService],
+  bootstrap: []
 })
 export class AppModule { }

@@ -1,60 +1,31 @@
-import {NgModule} from '@angular/core';
+import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import {CommonModule} from '@angular/common';
-import {BrowserModule} from '@angular/platform-browser';
 
-
-import { ManagerPartComponent } from './layout/manager-part/manager-part.component'
-import {HomeComponent} from './layout/home/home.component';
-import {TeamComponent} from './layout/team/team.component';
-import {UserListComponent} from './user-list/user-list.component';
-import {UserService} from './User/user.service';
-import {SubmitRequestComponent} from './layout/submit-request/submit-request.component';
-import {EditRequestsComponent} from './layout/edit-requests/edit-requests.component';
-import {HistoryComponent} from './layout/history/history.component';
+import { ManagerPartComponent } from './layout/manager-part/manager-part.component';
+import { HomeComponent } from './layout/home/home.component';
+import { TeamComponent } from './layout/team/team.component';
+import { SubmitRequestComponent } from './layout/submit-request/submit-request.component';
+import { EditRequestsComponent } from './layout/edit-requests/edit-requests.component';
+import { HistoryComponent } from './layout/history/history.component';
 import { LoginComponent } from './layout/login/login.component';
 import { SignupComponent } from './layout/signup/signup.component';
+import { AdminComponent } from './components/admin-dashboard/admin.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
-  {
-    path: "home",
-    component: HomeComponent
-    // loadComponent: () => import('./layout/home/home.component').then(c => c.HomeComponent)
-  },
-  {
-    path: "submit-request",
-    component: SubmitRequestComponent
-    // loadComponent: () => import('./layout/submit-request/submit-request.component').then(c => c.SubmitRequestComponent)
-  },
-  {
-    path: "edit-requests",
-    component: EditRequestsComponent
-    // loadComponent: () => import('./layout/edit-requests/edit-requests.component').then(c => c.EditRequestsComponent)
-  },
-  {
-    path: "history",
-    component: HistoryComponent
-    // loadComponent: () => import('./layout/history/history.component').then(c => c.HistoryComponent)
-  },
-  {
-    path: "review",
-    component: ManagerPartComponent
-    // loadComponent: () => import('./layout/manager-part/manager-part.component').then(c => c.ManagerPartComponent)
-  },
-  {
-    path: "team",
-    component: TeamComponent
-    // loadComponent: () => import('./layout/team/team.component').then(c => c.TeamComponent)
-  },
+  { path: 'home', component: HomeComponent },
+  { path: 'submit-request', component: SubmitRequestComponent },
+  { path: 'edit-requests', component: EditRequestsComponent },
+  { path: 'history', component: HistoryComponent },
+  { path: 'review', component: ManagerPartComponent },
+  { path: 'team', component: TeamComponent },
   { path: 'login', component: LoginComponent },
-  { path: 'signup', component: SignupComponent }
-
+  { path: 'signup', component: SignupComponent },
+  { path: 'admin', component: AdminComponent }
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes), BrowserModule],
-  exports: [RouterModule, CommonModule],
-  providers: [UserService]
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule]
 })
-export class AppRoutingModule{}
+export class AppRoutingModule { }

@@ -76,6 +76,12 @@ public class User {
     private Role role;
     public Role getRole(){return role;}
     public void setRole(Role role){this.role=role;}
+
+
+    // Add this inside your User class
+    @OneToMany(mappedBy = "manager")
+    @com.fasterxml.jackson.annotation.JsonIgnore
+    private java.util.List<Projects> managedProjects;
 //    @Column(name="role")
 //    private int roleId;
 //    public int getRoleId() {
