@@ -3,6 +3,7 @@ import com.Turtles.Time_off_Manager_BackEnd.User.User;
 import com.Turtles.Time_off_Manager_BackEnd.User.UserRepository;
 import com.Turtles.Time_off_Manager_BackEnd.web.transfer.CreateTimeOffRequest;
 import com.Turtles.Time_off_Manager_BackEnd.web.transfer.TimeOffRequestResponse;
+import com.Turtles.Time_off_Manager_BackEnd.LeaveType.LeaveType;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,6 +65,30 @@ public class TimeOffRequestsService {
         return responseMapper.map(t.get());
 //        TimeOffRequestResponse t=responseMapper.map();
     }
+    public TimeOffRequestResponse acceptRequest(String email,long nr){
+        Optional<User> user=userRepo.findByEmail(email);
+        if (user.isEmpty()){
+            return null;
+        }
+        Optional<TimeOffRequest> t=repo.findByUserEmailAndRequestUserNumber(email,nr);
+        if (t.isEmpty()){return null;}
+        t.get().setStatus(1);
+        repo.save(t.get());
+        return responseMapper.map(t.get());
+//        TimeOffRequestResponse t=responseMapper.map();
+    }
+    public TimeOffRequestResponse rejectRequest(String email,long nr){
+        Optional<User> user=userRepo.findByEmail(email);
+        if (user.isEmpty()){
+            return null;
+        }
+        Optional<TimeOffRequest> t=repo.findByUserEmailAndRequestUserNumber(email,nr);
+        if (t.isEmpty()){return null;}
+        t.get().setStatus(2);
+        repo.save(t.get());
+        return responseMapper.map(t.get());
+//        TimeOffRequestResponse t=responseMapper.map();
+    }
     public TimeOffRequestResponse delete(String email,long nr){
         Optional<User> user=userRepo.findByEmail(email);
         if (user.isEmpty()){return null;}
@@ -81,7 +106,7 @@ public class TimeOffRequestsService {
         toModifyEntity.setDescription(createDto.getDescription());
         toModifyEntity.setEndDate(createDto.getEnd());
         toModifyEntity.setStartDate(createDto.getStart());
-        toModifyEntity.setLeaveType(toModifyEntity.getLeaveType());
+        toModifyEntity.setLeaveType(LeaveType.fromString(createDto.getLeaveType()));
         toModifyEntity.setStartDate(toModifyEntity.getStartDate());
         toModifyEntity.setRequestedDays(toModifyEntity.getRequestedDays());
         repo.save(toModifyEntity);

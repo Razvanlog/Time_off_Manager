@@ -1,5 +1,6 @@
 package com.Turtles.Time_off_Manager_BackEnd.TimeOffRequest;
 
+import com.Turtles.Time_off_Manager_BackEnd.Projects.ProjectsService;
 import com.Turtles.Time_off_Manager_BackEnd.User.User;
 import com.Turtles.Time_off_Manager_BackEnd.User.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import com.Turtles.Time_off_Manager_BackEnd.web.transfer.CreateTimeOffRequest;
 import com.Turtles.Time_off_Manager_BackEnd.web.transfer.TimeOffRequestResponse;
@@ -18,13 +20,14 @@ import org.springframework.http.ResponseEntity;
 
 @RestController
 @RequestMapping("/TimeOffRequestsController")
-@CrossOrigin(origins = {"http://localhost:4200", "http://localhost:45167", "http://localhost:41811"})
+@CrossOrigin(origins = "http://localhost:4200")
 public class TimeOffRequestController {
     @Autowired
     private TimeOffRequestsService service;
     @Autowired
     private UserService userService;
-
+    @Autowired
+    private ProjectsService projectService;
     @PostMapping
     @Operation(summary="Create TimeOffRequests")
     @ApiResponse(responseCode="200",description="succes")
@@ -103,6 +106,61 @@ public class TimeOffRequestController {
         }
         return ResponseEntity.ok(a1);
     }
+    @CrossOrigin(origins = "http://localhost:4200")
+    @PostMapping("/accept/{userMail}/{requestNumber}")
+    @Operation(summary="accept TimeOffRequest with email and nr")
+    @ApiResponse(responseCode="200", description="succes")
+    public ResponseEntity<TimeOffRequestResponse> acceptTimeOffRequest(
+        @PathVariable("userMail") String userMail,
+        @PathVariable("requestNumber") int requestNumber
+    ){
+        User user=userService.findRawByEmail(userMail);
+        if (user==null){
+            return ResponseEntity.notFound().build();
+        }
+        List<TimeOffRequestResponse> a=service.findByUser(user.getEmail());
+        if (a.size()<requestNumber){
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(service.acceptRequest(userMail,requestNumber));
+    }
+    @CrossOrigin(origins = "http://localhost:4200")
+    @PostMapping("/reject/{userMail}/{requestNumber}")
+    @Operation(summary="reject TimeOffRequest with email and nr")
+    @ApiResponse(responseCode="200", description="'succes")
+    public ResponseEntity<TimeOffRequestResponse> rejectTimeOffRequest(
+            @PathVariable("userMail") String userMail,
+            @PathVariable("requestNumber") int requestNumber
+    ){
+        User user=userService.findRawByEmail(userMail);
+        if (user==null){
+            return ResponseEntity.notFound().build();
+        }
+        List<TimeOffRequestResponse> a=service.findByUser(user.getEmail());
+        if (a.size()<requestNumber){
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(service.rejectRequest(userMail,requestNumber));
+    }
+    @GetMapping("/all/{managerMail}")
+    @Operation(summary="get requests of all employees")
+    @ApiResponse(responseCode="200",description="succes")
+    public ResponseEntity<List<TimeOffRequestResponse>> getTimeOffRequestsOfManager(@PathVariable("managerMail") String managerMail){
+        User manager=userService.findRawByEmail(managerMail);
+        if (manager==null){
+            return ResponseEntity.notFound().build();
+        }
+        List<User> employees= projectService.getEmployees(managerMail);
+        if (employees==null){
+            return null;
+        }
+        ArrayList<TimeOffRequestResponse> requests=new ArrayList<TimeOffRequestResponse>();
+        for (User employee:employees){
+            requests.addAll(service.findByUser(employee.getEmail()));
+        }
+        return ResponseEntity.ok(requests);
+    }
+
 }
 //    @PutMapping("{userMail}/{requestNumber}")
 //    @Operation(summary="Modify a request")

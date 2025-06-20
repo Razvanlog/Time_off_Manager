@@ -26,7 +26,12 @@ public class Projects {
     @OneToMany(cascade=CascadeType.PERSIST)
     @JoinColumn(name="employees")
     private List<User> employees;
-
+    public Long getId() {
+        return id;
+    }
+    public void setId(Long id) {
+        this.id = id;
+    }
     public void setName(String a){
         this.name = a;
     }

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { UserResponse } from '../services/user-api.service';
 
-interface StoredUser {
+export interface StoredUser {
   role: string;
   email: string;
   name?: string;
@@ -65,6 +65,9 @@ export class AuthService {
   logout(): void {
     if (typeof window !== 'undefined' && localStorage) {
       localStorage.removeItem(this.USER_STORAGE_KEY);
+      localStorage.removeItem("data");
+      localStorage.removeItem("requests");
+      localStorage.removeItem("user");
     }
     this._isLoggedIn$.next(false);
     this._role$.next(null);

@@ -1,1 +1,46 @@
-<p>manager-part works!</p>
+<h2>Review Time Off Requests</h2>
+
+<table>
+  <thead>
+  <tr>
+    <th>Employee</th>
+    <th>Start Date</th>
+    <th>End Date</th>
+    <th>Type</th>
+    <th>Description</th>
+    <th>Status</th>
+  </tr>
+  </thead>
+  <tbody>
+  <ng-container *ngIf="requests && requests.length>0; else noRequests">
+  <tr *ngFor="let req of requests">
+    <td>{{req.user}}</td>
+    <td>{{ req.start }}</td>
+    <td>{{ req.end }}</td>
+    <td>{{ req.type }}</td>
+    <td>{{ req.description }}</td>
+    <td>{{req.status}}</td>
+    <ng-container *ngIf="!req.status; else noSubmit">
+      <td>
+      <select [(ngModel)]="req.selectedStatus" [name]="'status-select-'">
+        <option *ngFor="let option of statusOptions" [value]="option">
+          {{option}}
+        </option>
+      </select>
+    </td>
+    <td>
+      <button (click)="onRowSubmit(req)">Submit</button>
+    </td>
+    </ng-container>
+  </tr>
+  </ng-container>
+  <ng-template #noSubmit>
+
+  </ng-template>
+  <ng-template #noRequests>
+    <tr>
+      <td colspan="6" style="text-align: center;">Manager has no project assigned</td>
+    </tr>
+  </ng-template>
+  </tbody>
+</table>

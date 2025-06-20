@@ -37,7 +37,9 @@ public class ProjectsService {
         if (manager.isEmpty()){
             return null;
         }
+        System.out.println(a.getId());
         a.setManager(manager.get());
+        System.out.println(manager.get().getUserId());
         a.setEmployees(new ArrayList<User>());
         for (String it: project.getEmployees()){
             Optional<User> employee=userRepo.findByEmail(it);
@@ -45,6 +47,7 @@ public class ProjectsService {
                 continue;
             }
             a.addEmployee(employee.get());
+            System.out.println(employee.get().getUserId());
         }
         repo.save(a);
         ProjectResponse r=responseMapper.map(a);
@@ -59,6 +62,18 @@ public class ProjectsService {
 //        ProjectResponse r=responseMapper.map(p.get());
 //        return r;
 //    }
+
+    public List<User> getEmployees(String managerEmail){
+        Optional<User> manager=userRepo.findByEmail(managerEmail);
+        if (manager.isEmpty()){
+            return null;
+        }
+        Optional<Projects> a=repo.findByManager(manager.get());
+        if (a.isEmpty()){
+            return null;
+        }
+        return a.get().getEmployees();
+    }
     public ProjectResponse findByName(String name){
         Optional<Projects> p=repo.findByName(name);
         if (p.isEmpty()){
