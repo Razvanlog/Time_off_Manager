@@ -1,0 +1,42 @@
+<h2>Manage Users</h2>
+
+<div *ngIf="isLoading" class="loading-indicator">
+  <p>Loading users...</p>
+</div>
+
+<div *ngIf="errorMessage && !isLoading" class="error-message">
+  <p>{{ errorMessage }}</p>
+  <button (click)="loadUsers()">Try Again</button>
+</div>
+
+<table *ngIf="!isLoading && users.length > 0">
+  <thead>
+  <tr>
+    <th>Name</th>
+    <th>Email</th>
+    <th>Role</th>
+    <th>Actions</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let user of users">
+    <td>{{ user.name }}</td>
+    <td>{{ user.email }}</td>
+    <td>
+      <select [ngModel]="user.role" (change)="onRoleChange(user, $any($event.target).value)">
+        <option *ngFor="let roleOption of roles" [value]="roleOption">
+          {{ roleOption }}
+        </option>
+      </select>
+    </td>
+    <td>
+      <button (click)="editUser(user)" class="edit-button">Edit Profile</button>
+      <button (click)="deleteUser(user.userId)" class="delete-button">Delete User</button>
+    </td>
+  </tr>
+  </tbody>
+</table>
+
+<div *ngIf="!isLoading && !errorMessage && users.length === 0">
+  <p>No users found.</p>
+</div>

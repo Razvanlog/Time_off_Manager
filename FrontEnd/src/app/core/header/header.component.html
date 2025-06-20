@@ -10,7 +10,12 @@
   </ng-container>
 
   <button mat-button *ngIf="role === 'MANAGER'" routerLink="/review-requests">Review Requests</button>
-  <button mat-button *ngIf="role === 'ADMIN'" routerLink="/admin-dashboard">Admin Dashboard</button>
+
+  <ng-container *ngIf="role === 'ADMIN'">
+    <button mat-button routerLink="/admin-dashboard">Admin Dashboard</button>
+    <button mat-button routerLink="/admin/users">Manage Users</button>ws
+
+  </ng-container>
 
   <div class="toolbar-actions">
     <span *ngIf="role" class="user-role-display">Role: {{ role }}</span>

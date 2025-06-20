@@ -1,0 +1,21 @@
+<h2>All Time-Off Requests</h2>
+<table>
+  <thead>
+  <tr>
+    <th>Employee</th>
+    <th>Start</th>
+    <th>End</th>
+    <th>Type</th>
+    <th>Status</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let r of requests">
+    <td>{{ r.employee }}</td>
+    <td>{{ r.startDate }}</td>
+    <td>{{ r.endDate }}</td>
+    <td>{{ r.type }}</td>
+    <td>{{ r.status }}</td>
+  </tr>
+  </tbody>
+</table>
