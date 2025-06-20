@@ -17,7 +17,6 @@ import com.Turtles.Time_off_Manager_BackEnd.web.transfer.UserResponse;
 
 @RestController
 
-// changed path to match ang exp
 @RequestMapping("/api/users")
 public class UserController {
 

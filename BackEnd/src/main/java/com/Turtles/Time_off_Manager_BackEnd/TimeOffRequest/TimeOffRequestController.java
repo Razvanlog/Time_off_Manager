@@ -18,7 +18,7 @@ import org.springframework.http.ResponseEntity;
 
 @RestController
 @RequestMapping("/TimeOffRequestsController")
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = {"http://localhost:4200", "http://localhost:45167", "http://localhost:41811"})
 public class TimeOffRequestController {
     @Autowired
     private TimeOffRequestsService service;
