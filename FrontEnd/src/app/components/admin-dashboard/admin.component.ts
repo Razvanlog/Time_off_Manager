@@ -32,7 +32,12 @@ export class AdminDashboardComponent implements OnInit {
     private userService: UserService,
     private requestService: TimeOffRequestService,
     private policyService: LeavePolicyService
-  ) { }
+  ) {
+    this.loadUsers();
+    this.resetNewUserForm();
+    this.loadAllRequests();
+    this.loadLeavePolicies();
+  }
 
   ngOnInit(): void {
     this.loadUsers();
@@ -42,19 +47,22 @@ export class AdminDashboardComponent implements OnInit {
   }
 
   loadLeavePolicies(): void {
-    this.policyService.getAllPolicies().subscribe(data => { this.leavePolicies = data; });
+    // this.policyService.getAllPolicies().subscribe(data => { this.leavePolicies = data; });
   }
 
   updatePolicy(policy: LeavePolicy): void {
-    this.policyService.updatePolicy(policy).subscribe(updatedPolicy => {
-      const index = this.leavePolicies.findIndex(p => p.id === updatedPolicy.id);
-      if (index !== -1) { this.leavePolicies[index] = updatedPolicy; }
-      alert('Policy updated successfully!');
-    });
+    // this.policyService.updatePolicy(policy).subscribe(updatedPolicy => {
+    //   const index = this.leavePolicies.findIndex(p => p.id === updatedPolicy.id);
+    //   if (index !== -1) { this.leavePolicies[index] = updatedPolicy; }
+    //   alert('Policy updated successfully!');
+    // });
   }
 
   loadAllRequests(): void {
-    this.requestService.getAllRequests().subscribe(data => { this.allRequests = data; });
+    this.requestService.getAllRequests().subscribe(data => { this.allRequests = data;
+      console.log(this.allRequests);
+      // localStorage.setItem("requests",JSON.stringify(data));
+    });
   }
 
   loadUsers(): void {

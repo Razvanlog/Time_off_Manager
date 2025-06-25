@@ -107,7 +107,7 @@
       <td>{{ request.endDate | date:'mediumDate' }}</td>
       <td>{{ request.reason }}</td>
       <td>
-          <span class="status-badge" [ngClass]="request.status.toLowerCase()">
+          <span class="status-badge" [ngClass]="request.status">
             {{ request.status }}
           </span>
       </td>

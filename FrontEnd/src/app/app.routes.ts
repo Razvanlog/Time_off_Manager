@@ -14,6 +14,8 @@ import {EditRequestsComponent} from './layout/edit-requests/edit-requests.compon
 import {HistoryComponent} from './layout/history/history.component';
 import { LoginComponent } from './layout/login/login.component';
 import { SignupComponent } from './layout/signup/signup.component';
+import {AdminDashboardComponent} from './components/admin-dashboard/admin.component';
+import {AdminUsersComponent} from './admin/admin-users/admin-users.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -24,8 +26,9 @@ export const routes: Routes = [
   { path: 'manager-dashboard', component: ManagerPartComponent },
   { path: 'team', component: TeamComponent },
   { path: 'login', component: LoginComponent },
-  { path: 'signup', component: SignupComponent }
-
+  { path: 'signup', component: SignupComponent },
+  {path:'admin-dashboard', component: AdminDashboardComponent},
+  {path:'admin/users', component: AdminUsersComponent}
 ];
 
 @NgModule({

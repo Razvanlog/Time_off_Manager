@@ -160,7 +160,12 @@ public class TimeOffRequestController {
         }
         return ResponseEntity.ok(requests);
     }
-
+    @GetMapping("")
+    @Operation(summary="get all requests")
+    public ResponseEntity<List<TimeOffRequestResponse>> getAllRequests(){
+        List<TimeOffRequestResponse> requests=service.findAll();
+        return ResponseEntity.ok(requests);
+    }
 }
 //    @PutMapping("{userMail}/{requestNumber}")
 //    @Operation(summary="Modify a request")

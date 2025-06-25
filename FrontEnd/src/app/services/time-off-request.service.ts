@@ -7,7 +7,7 @@ import { TimeOffRequest } from '../models/time-off-request';
   providedIn: 'root'
 })
 export class TimeOffRequestService {
-  private apiUrl = 'http://localhost:8080/requests';
+  private apiUrl = 'http://localhost:8080/TimeOffRequestsController';
 
   constructor(private http: HttpClient) { }
 
