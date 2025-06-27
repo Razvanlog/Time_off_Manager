@@ -13,7 +13,7 @@
       <form (ngSubmit)="createUser()">
         <div class="form-group">
           <label for="fullName">Full Name:</label>
-          <input id="fullName" [(ngModel)]="newUser.fullName" name="fullName" required>
+          <input id="fullName" [(ngModel)]="newUser.name" name="fullName" required>
         </div>
         <div class="form-group">
           <label for="email">Email:</label>
@@ -38,7 +38,6 @@
     <table class="user-table">
       <thead>
       <tr>
-        <th>User ID</th>
         <th>Full Name</th>
         <th>Email</th>
         <th>Role</th>
@@ -47,24 +46,23 @@
       </thead>
       <tbody>
       <tr *ngFor="let user of users">
-        <td>{{ user.id }}</td>
-        <td>{{ user.fullName }}</td>
+        <td>{{ user.name }}</td>
         <td>{{ user.email }}</td>
         <td>{{ user.role }}</td>
         <td>
           <button (click)="startEdit(user)" class="btn btn-secondary">Edit</button>
-          <button (click)="deleteUser(user.id)" class="btn btn-danger">Delete</button>
+          <button (click)="deleteUser(user.email)" class="btn btn-danger">Delete</button>
         </td>
       </tr>
       </tbody>
     </table>
 
     <div *ngIf="editingUser" class="form-container edit-form">
-      <h3>Editing {{ editingUser.fullName }}</h3>
+      <h3>Editing {{ editingUser.name }}</h3>
       <form (ngSubmit)="updateUser()">
         <div class="form-group">
           <label for="editFullName">Full Name:</label>
-          <input id="editFullName" [(ngModel)]="editingUser.fullName" name="editFullName" required>
+          <input id="editFullName" [(ngModel)]="editingUser.name" name="editFullName" required>
         </div>
         <div class="form-group">
           <label for="editEmail">Email:</label>
@@ -91,7 +89,6 @@
   <table class="user-table">
     <thead>
     <tr>
-      <th>Request ID</th>
       <th>Employee Name</th>
       <th>Start Date</th>
       <th>End Date</th>
@@ -101,15 +98,15 @@
     </thead>
     <tbody>
     <tr *ngFor="let request of allRequests">
-      <td>{{ request.id }}</td>
-      <td>{{ request.user.fullName }}</td>
-      <td>{{ request.startDate | date:'mediumDate' }}</td>
-      <td>{{ request.endDate | date:'mediumDate' }}</td>
-      <td>{{ request.reason }}</td>
+      <td>{{ request.user}}</td>
+      <td>{{ request.start| date:'mediumDate' }}</td>
+      <td>{{ request.end | date:'mediumDate' }}</td>
+      <td>{{ request.description }}</td>
       <td>
-          <span class="status-badge" [ngClass]="request.status">
-            {{ request.status }}
-          </span>
+        <span *ngIf="request.status === 0">Pending</span>
+        <span *ngIf="request.status === 1">Approved</span>
+        <span *ngIf="request.status === 2">Rejected</span>
+        <span *ngIf="request.status !== 0 && request.status !== 1 && request.status !== 2">Unknown ({{ request.status }})</span>
       </td>
     </tr>
     <tr *ngIf="allRequests.length === 0">

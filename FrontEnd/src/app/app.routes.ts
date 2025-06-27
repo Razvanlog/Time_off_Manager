@@ -23,7 +23,7 @@ export const routes: Routes = [
   { path: 'submit-request', component: SubmitRequestComponent },
   { path: 'edit-requests', component: EditRequestsComponent },
   { path: 'history', component: HistoryComponent },
-  { path: 'manager-dashboard', component: ManagerPartComponent },
+  { path: 'review-requests', component: ManagerPartComponent },
   { path: 'team', component: TeamComponent },
   { path: 'login', component: LoginComponent },
   { path: 'signup', component: SignupComponent },

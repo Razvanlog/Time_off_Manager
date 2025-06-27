@@ -68,6 +68,7 @@ public class UserService {
             user1.setEmail(createUserRequest.getEmail());
             user1.setPassword(createUserRequest.getPassword());
             user1.setName(createUserRequest.getName());
+            user1.setRole(createUserRequest.getRole());
             repo.save(user1);
             return userResponseMapper.map(user1);
         }

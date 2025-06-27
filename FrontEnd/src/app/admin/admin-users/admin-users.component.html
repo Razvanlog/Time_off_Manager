@@ -1,18 +1,40 @@
-<h2>Manage Users</h2>
+<div class="Manage Users">
+  <h2>User Management</h2>
+  <button (click)="showCreateForm = !showCreateForm; cancelEdit()" class="btn btn-primary">
+  {{ showCreateForm ? 'Cancel' : 'Create New User' }}
+</button>
 
-<div *ngIf="isLoading" class="loading-indicator">
-  <p>Loading users...</p>
+<div *ngIf="showCreateForm" class="form-container create-form">
+  <h3>Create New User</h3>
+  <form (ngSubmit)="createUser()">
+    <div class="form-group">
+      <label for="fullName">Full Name:</label>
+      <input id="fullName" [(ngModel)]="newUser.name" name="fullName" required>
+    </div>
+    <div class="form-group">
+      <label for="email">Email:</label>
+      <input id="email" [(ngModel)]="newUser.email" name="email" type="email" required>
+    </div>
+    <div class="form-group">
+      <label for="password">Password:</label>
+      <input id="password" [(ngModel)]="newUser.password" name="password" type="password" required>
+    </div>
+    <div class="form-group">
+      <label for="role">Role:</label>
+      <select id="role" [(ngModel)]="newUser.role" name="role" required>
+        <option *ngFor="let roleValue of userRoles" [value]="roleValue">
+          {{ roleValue }}
+        </option>
+      </select>
+    </div>
+    <button type="submit" class="btn btn-success">Save User</button>
+  </form>
 </div>
 
-<div *ngIf="errorMessage && !isLoading" class="error-message">
-  <p>{{ errorMessage }}</p>
-  <button (click)="loadUsers()">Try Again</button>
-</div>
-
-<table *ngIf="!isLoading && users.length > 0">
+<table class="user-table">
   <thead>
   <tr>
-    <th>Name</th>
+    <th>Full Name</th>
     <th>Email</th>
     <th>Role</th>
     <th>Actions</th>
@@ -22,21 +44,36 @@
   <tr *ngFor="let user of users">
     <td>{{ user.name }}</td>
     <td>{{ user.email }}</td>
+    <td>{{ user.role }}</td>
     <td>
-      <select [ngModel]="user.role" (change)="onRoleChange(user, $any($event.target).value)">
-        <option *ngFor="let roleOption of roles" [value]="roleOption">
-          {{ roleOption }}
-        </option>
-      </select>
-    </td>
-    <td>
-      <button (click)="editUser(user)" class="edit-button">Edit Profile</button>
-      <button (click)="deleteUser(user.userId)" class="delete-button">Delete User</button>
+      <button (click)="startEdit(user)" class="btn btn-secondary">Edit</button>
+      <button (click)="deleteUser(user.email)" class="btn btn-danger">Delete</button>
     </td>
   </tr>
   </tbody>
 </table>
 
-<div *ngIf="!isLoading && !errorMessage && users.length === 0">
-  <p>No users found.</p>
+<div *ngIf="editingUser" class="form-container edit-form">
+  <h3>Editing {{ editingUser.name }}</h3>
+  <form (ngSubmit)="updateUser()">
+    <div class="form-group">
+      <label for="editFullName">Full Name:</label>
+      <input id="editFullName" [(ngModel)]="editingUser.name" name="editFullName" required>
+    </div>
+    <div class="form-group">
+      <label for="editEmail">Email:</label>
+      <input id="editEmail" [(ngModel)]="editingUser.email" name="editEmail" type="email" required>
+    </div>
+    <div class="form-group">
+      <label for="editRole">Role:</label>
+      <select id="editRole" [(ngModel)]="editingUser.role" name="editRole" required>
+        <option *ngFor="let roleValue of userRoles" [value]="roleValue">
+          {{ roleValue }}
+        </option>
+      </select>
+    </div>
+    <button type="submit" class="btn btn-success">Save Changes</button>
+    <button type="button" (click)="cancelEdit()" class="btn btn-light">Cancel</button>
+  </form>
+</div>
 </div>

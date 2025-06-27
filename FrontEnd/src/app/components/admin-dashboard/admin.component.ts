@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { User } from '../../models/user';
 import { UserService } from '../../services/user.service';
 import { UserRole } from '../../enums/user-role.enum';
-import { TimeOffRequest } from '../../models/time-off-request';
+import { TimeOffRequest } from '../../services/requests-api.service';
 import { TimeOffRequestService } from '../../services/time-off-request.service';
 import { LeavePolicy } from '../../models/leave-policy';
 import { LeavePolicyService } from '../../services/leave-policy.service';
@@ -70,7 +70,7 @@ export class AdminDashboardComponent implements OnInit {
   }
 
   resetNewUserForm(): void {
-    this.newUser = { fullName: '', email: '', password: '', role: UserRole.EMPLOYEE };
+    this.newUser = { name: '', email: '', password: '', role: UserRole.EMPLOYEE };
   }
 
   createUser(): void {
@@ -86,12 +86,12 @@ export class AdminDashboardComponent implements OnInit {
   }
 
   updateUser(): void {
-    if (this.editingUser && this.editingUser.id) {
-      this.userService.updateUser(this.editingUser.id, this.editingUser).subscribe(() => { this.loadUsers(); this.editingUser = null; });
+    if (this.editingUser && this.editingUser.email) {
+      this.userService.updateUser(this.editingUser.email, this.editingUser).subscribe(() => { this.loadUsers(); this.editingUser = null; });
     }
   }
 
-  deleteUser(userId: number | undefined): void {
+  deleteUser(userId: String | undefined): void {
     if (userId === undefined) {
       alert('Error: User ID is missing.');
       return;

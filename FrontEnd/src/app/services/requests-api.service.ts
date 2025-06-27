@@ -22,7 +22,7 @@ export interface TimeOffRequest {
     start: Date;
     end: Date;
     type: BigInt;
-    status: BigInt;
+    status: number;
     requestUserNumber: BigInt;
     description: string;
     currentStatus: string;

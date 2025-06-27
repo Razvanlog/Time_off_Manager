@@ -1,8 +1,17 @@
 <mat-toolbar color="primary" *ngIf="isLoggedIn">
-  <span>Time-Off Manager</span>
+
+  <!-- NEW: LOGO CONTAINER -->
+  <div class="logo-container">
+    <img src="assets/images/uvt.png" alt="UVT Logo" height="40">
+    <span class="logo-separator">X</span>
+    <img src="assets/images/ibm.png" alt="IBM Logo" height="40">
+  </div>
+  <!-- END: LOGO CONTAINER -->
+
+  <span class="navbar-title">Time-Off Manager</span>
   <span class="spacer"></span>
 
-  <ng-container *ngIf="role === 'EMPLOYEE'">
+  <ng-container *ngIf="role === 'EMPLOYEE' || role === 'MANAGER'">
     <button mat-button routerLink="/home">Home</button>
     <button mat-button routerLink="/submit-request">Submit Request</button>
     <button mat-button routerLink="/edit-requests">Edit Requests</button>
@@ -13,7 +22,7 @@
 
   <ng-container *ngIf="role === 'ADMIN'">
     <button mat-button routerLink="/admin-dashboard">Admin Dashboard</button>
-    <button mat-button routerLink="/admin/users">Manage Users</button>ws
+    <button mat-button routerLink="/admin/users">Manage Users</button>
 
   </ng-container>
 

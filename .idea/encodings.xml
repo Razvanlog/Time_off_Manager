@@ -1,14 +1,6 @@
-<<<<<<< HEAD
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$/BackEnd/src/main/java" charset="UTF-8" />
   </component>
-=======
-<?xml version="1.0" encoding="UTF-8"?>
-<project version="4">
-  <component name="Encoding">
-    <file url="file://$PROJECT_DIR$/BackEnd/src/main/java" charset="UTF-8" />
-  </component>
->>>>>>> 845b31ae504a79ae267fbb5f1888dcad4f23d174
 </project>

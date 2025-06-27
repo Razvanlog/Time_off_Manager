@@ -19,7 +19,10 @@
     <td>{{ req.end }}</td>
     <td>{{ req.type }}</td>
     <td>{{ req.description }}</td>
-    <td>{{req.status}}</td>
+    <td><span *ngIf="req.status === 0">Pending</span>
+      <span *ngIf="req.status === 1">Approved</span>
+      <span *ngIf="req.status === 2">Rejected</span>
+      <span *ngIf="req.status !== 0 && req.status !== 1 && req.status !== 2">Unknown ({{ req.status }})</span></td>
     <ng-container *ngIf="!req.status; else noSubmit">
       <td>
       <select [(ngModel)]="req.selectedStatus" [name]="'status-select-'">

@@ -16,14 +16,14 @@ export class UserService {
   }
 
   createUser(user: Partial<User>): Observable<User> {
-    return this.http.post<User>(this.apiUrl, user);
+    return this.http.post<User>(this.apiUrl+'/signup', user);
   }
 
-  updateUser(userId: number, user: User): Observable<User> {
+  updateUser(userId: String, user: User): Observable<User> {
     return this.http.put<User>(`${this.apiUrl}/${userId}`, user);
   }
 
-  deleteUser(userId: number): Observable<void> {
+  deleteUser(userId: String): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${userId}`);
   }
 }

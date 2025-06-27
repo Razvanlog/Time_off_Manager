@@ -1,8 +1,14 @@
 .header {
+  color: #007bff;
   text-align: center;
   position: sticky;
   top: 0px;
   width: 100%;
+}
+
+.cool_custom_color {
+  background-color: #007bff;
+  color: #007bff;
 }
 
 .spacer {
@@ -10,3 +16,66 @@
 }
 
 
+// Styles for the logo container
+:host ::ng-deep .logo-container {
+  display: flex;
+  align-items: center;
+  margin-right: 20px;
+}
+
+:host ::ng-deep .logo-separator {
+  margin: 0 10px;
+  font-size: 20px;
+  font-weight: 300;
+}
+
+// Style for the main title
+:host ::ng-deep .navbar-title {
+  font-family: 'Roboto', sans-serif;
+  font-size: 22px;
+  font-weight: 500;
+}
+
+// Style for the navigation buttons
+:host ::ng-deep button[mat-button] {
+  font-family: 'Roboto', sans-serif;
+  font-size: 16px;
+  font-weight: normal;
+}
+
+// Style for the user role text
+:host ::ng-deep .user-role-display {
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+  font-style: italic;
+  margin-right: 15px;
+}
+
+// The spacer class
+.spacer {
+  flex: 1 1 auto;
+}
+
+/*
+  This sets a global background for the entire application.
+*/
+
+// First, ensure the html and body tags can fill the screen.
+html, body {
+  height: 100%;
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif; // Ensures consistent font across the app
+}
+
+body {
+  // IMPORTANT: Replace 'app-background.jpg' if you used a different file name.
+  // The path starts from 'assets/' because of how Angular builds the project.
+  background-image: url('/assets/images/toolbarbackground.jpg');
+
+  // These properties make the background image look professional and stay fixed.
+  background-position: center center; // Center the image.
+  background-repeat: no-repeat;     // Do not tile the image.
+  background-attachment: fixed;       // This is the key: the background stays in place on scroll.
+  background-size: cover;             // Scale the image to cover the entire screen viewport.
+  background-color: #f0f2f5;        // A light grey fallback color if the image fails to load.
+}

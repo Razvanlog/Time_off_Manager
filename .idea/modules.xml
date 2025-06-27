@@ -1,18 +1,8 @@
-<<<<<<< HEAD
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/Time_off_Manager.iml" filepath="$PROJECT_DIR$/.idea/Time_off_Manager.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/Time_off_Manager3.iml" filepath="$PROJECT_DIR$/.idea/Time_off_Manager3.iml" />
     </modules>
   </component>
-=======
-<?xml version="1.0" encoding="UTF-8"?>
-<project version="4">
-  <component name="ProjectModuleManager">
-    <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/Time_off_Manager.iml" filepath="$PROJECT_DIR$/.idea/Time_off_Manager.iml" />
-    </modules>
-  </component>
->>>>>>> 845b31ae504a79ae267fbb5f1888dcad4f23d174
 </project>

@@ -1,0 +1,75 @@
+/* This is the main container that centers our card on the page */
+.home-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  min-height: 80vh;
+}
+
+/* This styles the main card */
+.welcome-card {
+  /* SETTING THE BEIGE BACKGROUND */
+  /* A professional, slightly transparent beige. You can use a solid #f5f5dc if you prefer. */
+  background-color: rgba(255, 255, 255, 0.95);
+  //background-image: linear-gradient(to right, #50b2e4, #2585ed);
+
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  padding: 2.5rem;
+  max-width: 700px;
+  text-align: center;
+  font-family: 'Helvetica Neue'
+}
+
+//.background {
+//  background-image: linear-gradient(to right, #50b2e4, #2585ed);
+//  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+//  border-radius: 12px;
+//  padding: 2.5rem;
+//  max-width: 700px;
+//  text-align: center;
+//}
+
+/* --- Typography --- */
+/* ALL TEXT COLORS ARE CHANGED BACK TO DARK FOR READABILITY ON THE BEIGE CARD */
+
+.welcome-title {
+  font-size: 2.5rem;
+  font-weight: 500;
+  color: #2c3e50; /* Dark blue-grey */
+  margin-bottom: 0.5rem;
+}
+
+.welcome-tagline {
+  font-size: 1.2rem;
+  color: #7f8c8d; /* Muted grey */
+  margin-bottom: 2rem;
+}
+
+.welcome-divider {
+  border: none;
+  height: 1px;
+  background-color: #dcdcdc; /* A light grey for the line */
+  margin: 2rem auto;
+  width: 80%;
+}
+
+.welcome-instructions {
+  font-size: 1.1rem;
+  color: #34495e; /* Stronger grey */
+}
+
+.actions-list {
+  list-style-type: none;
+  padding: 0;
+  margin-top: 1rem;
+  text-align: center;
+  display: inline-block;
+}
+
+.actions-list li {
+  font-size: 1rem;
+  color: #34495e;
+  padding: 0.5rem 0;
+}

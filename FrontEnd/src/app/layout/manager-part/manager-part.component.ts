@@ -72,6 +72,7 @@ export class ManagerPartComponent {
         }
       )
     }
+    this.ngOnClick();
   }
   // fetchData(): void{
   //   this.user=JSON.parse(localStorage.getItem('data')||'""');

@@ -44,7 +44,7 @@ export class LoginComponent {
         } else if (user.role === 'EMPLOYEE') {
           this.router.navigate(['/home']);
         } else if (user.role === 'MANAGER') {
-          this.router.navigate(['/manager-dashboard']);
+          this.router.navigate(['/review-requests']);
         }
         else {
           console.warn('LoginComponent: Unknown role or no role-specific route defined, navigating to /home.');
